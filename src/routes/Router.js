@@ -5,7 +5,8 @@ import { Navigate } from "react-router-dom";
 const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
 
 /***** Pages ****/
-
+const Starter = lazy(() => import("../views/Starter.js"));
+const Analysis = lazy(() => import("../views/Analysis.js"));
 const Login = lazy(() => import("../pages/LoginPage.js"));
 const Join = lazy(() => import("../pages/JoinPage.js"));
 const About = lazy(() => import("../views/About.js"));
@@ -25,7 +26,10 @@ const ThemeRoutes = [
     path: "/",
     element: <FullLayout />,
     children: [
-      { path: "/", element: <Navigate to="/login" /> },
+//    { path: "/", element: <Navigate to="/login" /> },
+      { path: "/", element: <Starter/> },
+      { path: "/Starter", exact: true, element: <Starter/> },
+      { path: "/Analysis", exact: true, element: <Analysis/> },
       { path: "/login", exact: true, element: <Login /> },
       { path: "/join", exact: true, element: <Join /> },
       { path: "/about", exact: true, element: <About /> },
