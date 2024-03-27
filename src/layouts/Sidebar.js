@@ -8,10 +8,11 @@ const navigation = [
     icon: "bi bi-speedometer2",
   },
   {
-    title: "트랜스포터",
+    title: "분석",
     href: "/Analysis",
     icon: "bi bi-card-text",
   },
+  /*
   {
     title: "이용자",
     href: "/starter3",
@@ -22,7 +23,7 @@ const navigation = [
     href: "/starter4",
     icon: "bi bi-speedometer2",
   },
-  /*
+  
   {
     title: "Alert",
     href: "/alerts",

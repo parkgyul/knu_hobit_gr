@@ -55,8 +55,11 @@ const Starter = () => {
         <Col sm="6" lg="6" xl="7" xxl="8">
           <Location />
         </Col>
-        
       </Row>
+
+      {/* 추가적인 빈 공간 */}
+      <div style={{ marginBottom: '20px' }}></div>
+
       {/***Table ***/}
       <Row>
         <Col lg="12">
