@@ -9,10 +9,8 @@ const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
 const Login = lazy(() => import("../pages/LoginPage.js"));
 const Join = lazy(() => import("../pages/JoinPage.js"));
 const About = lazy(() => import("../views/About.js"));
-const Starter1 = lazy(() => import("../views/Starter1.js"));
-const Starter2 = lazy(() => import("../views/Starter2.js"));
-const Starter3 = lazy(() => import("../views/Starter3.js"));
-const Starter4 = lazy(() => import("../views/Starter4.js"));
+const Starter = lazy(() => import("../views/Starter.js"));
+const Analysis = lazy(() => import("../views/Analysis.js"));
 const Alerts = lazy(() => import("../views/ui/Alerts"));
 const Badges = lazy(() => import("../views/ui/Badges"));
 const Buttons = lazy(() => import("../views/ui/Buttons"));
@@ -52,28 +50,19 @@ const ThemeRoutes = [
     path: "/",
     element: <FullLayout />,
     children: [
-      { path: "/", element: <RouteGuard component={<Starter1 />} /> },
+      { path: "/", element: <RouteGuard component={<Starter />} /> },
       { path: "/login", exact: true, element: <Login /> },
       { path: "/join", exact: true, element: <Join /> },
       {
-        path: "/starter1",
+        path: "/starter",
         exact: true,
-        element: <RouteGuard component={<Starter1 />} />,
+        element: <RouteGuard component={<Starter />} />,
       },
+
       {
-        path: "/starter2",
+        path: "/analysis",
         exact: true,
-        element: <RouteGuard component={<Starter2 />} />,
-      },
-      {
-        path: "/starter3",
-        exact: true,
-        element: <RouteGuard component={<Starter3 />} />,
-      },
-      {
-        path: "/starter4",
-        exact: true,
-        element: <RouteGuard component={<Starter4 />} />,
+        element: <RouteGuard component={<Analysis />} />,
       },
       {
         path: "/about",
