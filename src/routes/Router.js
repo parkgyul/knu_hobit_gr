@@ -35,6 +35,7 @@ const isAuthenticated = () => {
 const RouteGuard = ({ component }) => {
   //return isAuthenticated() ? component : <LoginRequiredPage />;
   return component;
+
 };
 
 const LoginRequiredPage = () => {
