@@ -4,14 +4,15 @@ import { Link, useLocation } from "react-router-dom";
 const navigation = [
   {
     title: "모니터링",
-    href: "/starter1",
+    href: "/Starter",
     icon: "bi bi-speedometer2",
   },
   {
-    title: "트랜스포터",
-    href: "/starter2",
+    title: "분석",
+    href: "/Analysis",
     icon: "bi bi-card-text",
   },
+  /*
   {
     title: "이용자",
     href: "/starter3",
@@ -22,7 +23,7 @@ const navigation = [
     href: "/starter4",
     icon: "bi bi-speedometer2",
   },
-  /*
+  
   {
     title: "Alert",
     href: "/alerts",
