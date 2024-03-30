@@ -11,6 +11,7 @@ const Join = lazy(() => import("../pages/JoinPage.js"));
 const About = lazy(() => import("../views/About.js"));
 const Starter = lazy(() => import("../views/Starter.js"));
 const Analysis = lazy(() => import("../views/Analysis.js"));
+const Sensor = lazy(() => import("../views/Sensor.js"));
 const Alerts = lazy(() => import("../views/ui/Alerts"));
 const Badges = lazy(() => import("../views/ui/Badges"));
 const Buttons = lazy(() => import("../views/ui/Buttons"));
@@ -63,6 +64,11 @@ const ThemeRoutes = [
         path: "/analysis",
         exact: true,
         element: <RouteGuard component={<Analysis />} />,
+      },
+      {
+        path: "/sensor",
+        exact: true,
+        element: <RouteGuard component={<Sensor />} />,
       },
       {
         path: "/about",
