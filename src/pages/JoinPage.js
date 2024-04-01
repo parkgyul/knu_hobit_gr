@@ -40,7 +40,7 @@ function JoinPage() {
       setEmailValid(false);
     }
   };
-
+ 
   const HandleInputPassword = (e) => {
     const Password = e.target.value;
     setPassword(Password);
@@ -74,7 +74,7 @@ function JoinPage() {
       alert("모든 필드를 입력하세요.");
       return;
     }
-    fetch("http://localhost:8080/auth/sign-up", {
+    fetch("[url]", {
       method: "post",
       headers: {
         "content-type": "application/json",

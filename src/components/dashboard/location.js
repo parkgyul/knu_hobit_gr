@@ -2,7 +2,7 @@
 // eslint-disable-next-line
 import { Card, CardBody, CardSubtitle, CardTitle, Row, Col } from "reactstrap";
 import React, { useEffect } from "react";
-import full from "../../assets/images/logos/full.png";
+import full from "../../assets/images/logos/marker.png";
 
 const Location = () => {
   useEffect(() => {
@@ -13,24 +13,28 @@ const Location = () => {
     };
 
     var map = new kakao.maps.Map(container, options);
-    var markerPosition = new kakao.maps.LatLng(34.872408, 128.701388);
+    var markerPositions = [
+      new kakao.maps.LatLng(34.872408, 128.701388),
+      new kakao.maps.LatLng(34.875, 128.705),
+      // 추가적인 마커 좌표들을 여기에 추가
+    ];
 
     var imageSrc = full,
-      imageSize = new kakao.maps.Size(40, 40),
-      imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-
+      imageSize = new kakao.maps.Size(40, 40)
+     
     var markerImage = new kakao.maps.MarkerImage(
         imageSrc,
         imageSize,
-        imageOption
-      ),
-      markerPosition = new kakao.maps.LatLng(34.872408, 128.701388);
+      );
 
-    var marker = new kakao.maps.Marker({
-      position: markerPosition,
-      image: markerImage,
+
+    markerPositions.forEach(position => {
+      var marker = new kakao.maps.Marker({
+        position: position,
+        image: markerImage,
+      });
+      marker.setMap(map);
     });
-    marker.setMap(map);
   }, []);
 
   return (
