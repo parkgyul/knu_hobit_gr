@@ -4,72 +4,19 @@ import { Link, useLocation } from "react-router-dom";
 const navigation = [
   {
     title: "모니터링",
-    href: "/Starter",
+    href: "/starter",
     icon: "bi bi-speedometer2",
   },
   {
     title: "분석",
-    href: "/Analysis",
-    icon: "bi bi-card-text",
-  },
-  /*
-  {
-    title: "이용자",
-    href: "/starter3",
-    icon: "bi bi-speedometer2",
-  },
-  {
-    title: "창고",
-    href: "/starter4",
-    icon: "bi bi-speedometer2",
-  },
-  
-  {
-    title: "Alert",
-    href: "/alerts",
-    icon: "bi bi-bell",
-  },
-  {
-    title: "Badges",
-    href: "/badges",
-    icon: "bi bi-patch-check",
-  },
-  {
-    title: "Buttons",
-    href: "/buttons",
-    icon: "bi bi-hdd-stack",
-  },
-  {
-    title: "Cards",
-    href: "/cards",
+    href: "/analysis",
     icon: "bi bi-card-text",
   },
   {
-    title: "Grid",
-    href: "/grid",
-    icon: "bi bi-columns",
+    title: "센서",
+    href: "/sensor",
+    icon: "bi bi-plus-square",
   },
-  {
-    title: "Table",
-    href: "/table",
-    icon: "bi bi-layout-split",
-  },
-  {
-    title: "Forms",
-    href: "/forms",
-    icon: "bi bi-textarea-resize",
-  },
-  {
-    title: "Breadcrumbs",
-    href: "/breadcrumbs",
-    icon: "bi bi-link",
-  },
-  {
-    title: "About",
-    href: "/about",
-    icon: "bi bi-people",
-  },
-  */
 ];
 
 const Sidebar = () => {
@@ -106,7 +53,6 @@ const Sidebar = () => {
               </Link>
             </NavItem>
           ))}
-          
         </Nav>
       </div>
     </div>

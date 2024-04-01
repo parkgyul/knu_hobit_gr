@@ -1,0 +1,16 @@
+.span {
+  color: gray;
+}
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group span {
+  margin-right: 10px;
+}
