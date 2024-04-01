@@ -18,7 +18,6 @@ const navigation = [
     icon: "bi bi-plus-square",
   },
 ];
-
 const Sidebar = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");

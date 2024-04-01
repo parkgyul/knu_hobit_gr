@@ -52,9 +52,9 @@ const Feeds = () => {
   return (
     <Card>
       <CardBody>
-        <CardTitle tag="h5">Feeds</CardTitle>
+        <CardTitle tag="h5">Categories</CardTitle>
         <CardSubtitle className="mb-2 text-muted" tag="h6">
-          Widget you can use
+          .
         </CardSubtitle>
         <ListGroup flush className="mt-4">
           {FeedData.map((feed, index) => (

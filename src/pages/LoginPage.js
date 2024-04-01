@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import google from "../assets/images/logos/google.svg";
 function LoginPage() {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
@@ -85,6 +85,10 @@ function LoginPage() {
           <button type="button" onClick={onClickRegister}>
             회원가입
           </button>
+          <br />
+          <a href="https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=377262399790-22fej88tjrehtu9krk5q0aa8bv6e5lp6.apps.googleusercontent.com&scope=profile%20email&state=L1x0ypyye_UT5F5HW6OU6UJxIO4VLZEha_mwqqgtjXM%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Flogin%2Foauth2%2Fcode%2Fgoogle&service=lso&o2v=2&theme=mn&flowName=GeneralOAuthFlow">
+            <img src={google} alt="google" width="200" className="imageStyle" />
+          </a>
         </form>
       </div>
     </div>

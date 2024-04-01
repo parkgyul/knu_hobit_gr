@@ -32,9 +32,8 @@ const isAuthenticated = () => {
 
 // 페이지에 대한 라우트를 보호하는 컴포넌트
 const RouteGuard = ({ component }) => {
-  //return isAuthenticated() ? component : <LoginRequiredPage />;
-  return component;
-
+  return isAuthenticated() ? component : <LoginRequiredPage />;
+  //return component;
 };
 
 const LoginRequiredPage = () => {
