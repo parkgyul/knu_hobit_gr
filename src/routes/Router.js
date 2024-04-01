@@ -21,7 +21,6 @@ const Tables = lazy(() => import("../views/ui/Tables"));
 const Forms = lazy(() => import("../views/ui/Forms"));
 const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
 
-
 /*****Routes******/
 
 // 인증된 사용자인지 확인하는 함수
@@ -33,9 +32,8 @@ const isAuthenticated = () => {
 
 // 페이지에 대한 라우트를 보호하는 컴포넌트
 const RouteGuard = ({ component }) => {
-  //return isAuthenticated() ? component : <LoginRequiredPage />;
-  return component;
-
+  return isAuthenticated() ? component : <LoginRequiredPage />;
+  //return component;
 };
 
 const LoginRequiredPage = () => {
