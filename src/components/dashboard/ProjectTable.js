@@ -8,45 +8,40 @@ import user5 from "../../assets/images/users/user5.jpg";
 const tableData = [
   {
     avatar: user1,
-    name: "Hanna Gover",
-    email: "hgover@gmail.com",
-    project: "Flexy React",
+    name: "0012030",
+    project: "?kg",
     status: "pending",
     weeks: "35",
     budget: "95K",
   },
   {
     avatar: user2,
-    name: "Hanna Gover",
-    email: "hgover@gmail.com",
-    project: "Lading pro React",
+    name: "134235",
+    project: "?kg",
     status: "done",
     weeks: "35",
     budget: "95K",
   },
   {
     avatar: user3,
-    name: "Hanna Gover",
-    email: "hgover@gmail.com",
-    project: "Elite React",
+    name: "1234534",
+    project: "?kg",
     status: "holt",
     weeks: "35",
     budget: "95K",
   },
   {
     avatar: user4,
-    name: "Hanna Gover",
-    email: "hgover@gmail.com",
-    project: "Flexy React",
+    name: "295839",
+    project: "?kg",
     status: "pending",
     weeks: "35",
     budget: "95K",
   },
   {
     avatar: user5,
-    name: "Hanna Gover",
-    email: "hgover@gmail.com",
-    project: "Ample React",
+    name: "234091",
+    project: "?kg",
     status: "done",
     weeks: "35",
     budget: "95K",
@@ -58,20 +53,20 @@ const ProjectTables = () => {
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">Project Listing</CardTitle>
+          <CardTitle tag="h5">트랜스포터</CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6">
-            Overview of the projects
+            .
           </CardSubtitle>
 
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
-                <th>Team Lead</th>
-                <th>Project</th>
+                <th>ID</th>
+                <th>현재 중량물</th>
 
-                <th>Status</th>
-                <th>Weeks</th>
-                <th>Budget</th>
+                <th>운행상태</th>
+                <th>운행시간</th>
+                <th>누적 운행시간</th>
               </tr>
             </thead>
             <tbody>
