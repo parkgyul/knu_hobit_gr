@@ -78,16 +78,16 @@ const Feeds = () => {
         <Checkbox value="yellow">id : 0001</Checkbox>
         <Checkbox value="green">id : 0010</Checkbox>
         <Checkbox value="blue">id : 0100</Checkbox>
-
+        <div style={{ marginBottom: '30px' }} />
           
-          <hr style={{borderTop: '3px solid #B9B8B8'}} />
-          <div style={{ marginBottom: '20px' }} />
-          상/하차:   <SelectBox options={LOAD} defaultValue="all" />
-          <div style={{ marginBottom: '15px' }} />
-          <hr style={{borderTop: '3px solid #B9B8B8'}} />
-          <div style={{ marginBottom: '15px' }} />
-          운행 여부:   <SelectBox options={OPERATION} defaultValue="all" />
-          <div style={{ marginBottom: '20px' }} />
+        <hr style={{borderTop: '3px solid #B9B8B8'}} />
+        <div style={{ marginBottom: '20px' }} />
+        상/하차:   <SelectBox options={LOAD} defaultValue="all" />
+        <div style={{ marginBottom: '20px' }} />
+        <hr style={{borderTop: '3px solid #B9B8B8'}} />
+        <div style={{ marginBottom: '20px' }} />
+        운행 여부:   <SelectBox options={OPERATION} defaultValue="all" />
+        <div style={{ marginBottom: '20px' }} />
 
           </CardTitle>
         </ListGroup>

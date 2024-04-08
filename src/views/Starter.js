@@ -1,5 +1,5 @@
 import { Col, Row } from "reactstrap";
-//import SalesChart from "../components/dashboard/SalesChart";
+
 import Options from "../components/dashboard/options.js";
 import ProjectTables from "../components/dashboard/ProjectTable";
 import Location from "../components/dashboard/location.js";
