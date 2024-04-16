@@ -1,3 +1,7 @@
+
+<p align="center">
+  <img src="https://github.com/blueberry0814/hobitfront_jiye/assets/155938701/ea7d67ac-6b2e-4f3f-890f-8f80d1e5c06b">
+<p/>
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
