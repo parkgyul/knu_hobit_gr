@@ -8,6 +8,11 @@ const navigation = [
     icon: "bi bi-speedometer2",
   },
   {
+    title: "데이터셋",
+    href: "/DataSet",
+    icon: "bi bi-plus-square",
+  },
+  {
     title: "분석",
     href: "/analysis",
     icon: "bi bi-card-text",

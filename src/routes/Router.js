@@ -7,6 +7,7 @@ const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
 /***** Pages ****/
 
 const Login = lazy(() => import("../pages/LoginPage.js"));
+const DataSet = lazy(() => import("../pages/DataSet.js"));
 const Join = lazy(() => import("../pages/JoinPage.js"));
 const About = lazy(() => import("../views/About.js"));
 const Starter = lazy(() => import("../views/Starter.js"));
@@ -127,6 +128,7 @@ const ThemeRoutes = [
       { path: "/", element: <Starter/> },
       { path: "/sensor", element: <Sensor />},
       { path: "/Starter", exact: true, element: <Starter/> },
+      { path: "/DataSet", exact: true, element: <DataSet/> },
       { path: "/Analysis", exact: true, element: <Analysis/> },
       { path: "/login", exact: true, element: <Login /> },
       { path: "/join", exact: true, element: <Join /> },
