@@ -1,7 +1,7 @@
 import { Col, Row } from "reactstrap";
 
 import Options from "../components/dashboard/options.js";
-import ProjectTables from "../components/dashboard/ProjectTable";
+import ProjectTables from "../components/dashboard/ProjectTable.js";
 import Location from "../components/dashboard/location.js";
 
 const Starter = () => {
@@ -11,9 +11,7 @@ const Starter = () => {
 
       {/***Sales & Feed***/}
       <Row>
-        <Col sm="6" lg="6" xl="7" xxl="8">
-          <Location />
-        </Col>
+      
         <Col sm="6" lg="6" xl="5" xxl="4">
           <Options />
         </Col>

@@ -10,6 +10,8 @@ import {
 } from "reactstrap";
 import '../../App.css';
 import Checkbox from "./Checkbox.js";
+import ApplyButton from "./ApplyButton.js";
+import "./ApplyButton.scss";
 
 const OPERATION = [
   { value: "all", name: "전체" },
@@ -36,30 +38,7 @@ const SelectBox = (props) => {
 	);
 };
 
-const FeedData = [
-  {
-    title: "Cras justo odio",
-    icon: "bi bi-bell",
-    color: "primary",
-    date: "6 minute ago",
-  },
-
-  {
-    title: "New user registered.",
-    icon: "bi bi-person",
-    color: "info",
-    date: "6 minute ago",
-  },
-  {
-    title: "Cras justo odio",
-    icon: "bi bi-bell",
-    color: "dark",
-    date: "6 minute ago",
-  },
-];
-
-
-const Feeds = () => {
+const Options = () => {
   const LoadContext = React.createContext();
   return (
     <Card>
@@ -71,29 +50,57 @@ const Feeds = () => {
         <hr style={{borderTop: '3px solid #B9B8B8'}} />
         <ListGroup flush className="mt-4">
         <CardTitle tag="h5">
-        트랜스포터 선택:
+        트랜스포터 ID 선택:
+        <div style={{ marginBottom: '10px' }} />
+
+        <Checkbox value="red"> 0000 &nbsp; </Checkbox>
+        <Checkbox value="yellow"> 0001 &nbsp; </Checkbox>
+        <Checkbox value="green"> 0010 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 0100 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 1200 &nbsp; </Checkbox>
+        <div style={{ marginBottom: '2px' }} />
+        <Checkbox value="red"> 0000 &nbsp; </Checkbox>
+        <Checkbox value="yellow"> 0001 &nbsp; </Checkbox>
+        <Checkbox value="green"> 0010 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 0100 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 1200 &nbsp; </Checkbox>
+        <div style={{ marginBottom: '2px' }} />
+        <Checkbox value="red"> 0000 &nbsp; </Checkbox>
+        <Checkbox value="yellow"> 0001 &nbsp; </Checkbox>
+        <Checkbox value="green"> 0010 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 0100 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 1200 &nbsp; </Checkbox>
+        <div style={{ marginBottom: '2px' }} />
+        <Checkbox value="red"> 0000 &nbsp; </Checkbox>
+        <Checkbox value="yellow"> 0001 &nbsp; </Checkbox>
+        <Checkbox value="green"> 0010 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 0100 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 1200 &nbsp; </Checkbox>
+        <div style={{ marginBottom: '2px' }} />
+        <Checkbox value="red"> 0000 &nbsp; </Checkbox>
+        <Checkbox value="yellow"> 0001 &nbsp; </Checkbox>
+        <Checkbox value="green"> 0010 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 0100 &nbsp; </Checkbox>
+        <Checkbox value="blue"> 1200 &nbsp; </Checkbox>
         <div style={{ marginBottom: '20px' }} />
-
-        <Checkbox value="red">id : 0000</Checkbox>
-        <Checkbox value="yellow">id : 0001</Checkbox>
-        <Checkbox value="green">id : 0010</Checkbox>
-        <Checkbox value="blue">id : 0100</Checkbox>
-
           
-          <hr style={{borderTop: '3px solid #B9B8B8'}} />
-          <div style={{ marginBottom: '20px' }} />
-          상/하차:   <SelectBox options={LOAD} defaultValue="all" />
-          <div style={{ marginBottom: '15px' }} />
-          <hr style={{borderTop: '3px solid #B9B8B8'}} />
-          <div style={{ marginBottom: '15px' }} />
-          운행 여부:   <SelectBox options={OPERATION} defaultValue="all" />
-          <div style={{ marginBottom: '20px' }} />
+        <hr style={{borderTop: '3px solid #B9B8B8'}} />
+        <div style={{ marginBottom: '10px' }} />
+        상/하차:   <SelectBox options={LOAD} defaultValue="all" />
+        <div style={{ marginBottom: '10px' }} />
+        <hr style={{borderTop: '3px solid #B9B8B8'}} />
+        <div style={{ marginBottom: '10px' }} />
+        운행 여부:   <SelectBox options={OPERATION} defaultValue="all" />
+        <div style={{ marginBottom: '10px' }} />
 
           </CardTitle>
         </ListGroup>
+      <div className="Button">
+      <ApplyButton>Apply</ApplyButton>
+      </div>
       </CardBody>
     </Card>
   );
 };
 
-export default Feeds;
+export default Options;
