@@ -1,16 +1,20 @@
 import React, { Suspense } from "react";
 import "./assets/scss/style.scss";
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 import Loader from "./layouts/loader/Loader";
+import store from "./redux/store";
+import { Provider } from "react-redux";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Suspense fallback={<Loader />}>
     <HashRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </HashRouter>
   </Suspense>
 );
