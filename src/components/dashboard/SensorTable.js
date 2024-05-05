@@ -17,36 +17,15 @@ import "../../assets/scss/layout/modalStyle.css";
 import axios from "axios";
 import { API_BASE_URL } from "../../config.js";
 
-// const items = [s
-//     type: "ship",
-//     name: "sensor1",
-//     topic: "topic1",
-//   },
-//   {
-//     type: "transporter",
-//     name: "sensor2",
-//     topic: "topic2",
-//   },
-//   {
-//     type: "transporter",
-//     name: "sensor3",
-//     topic: "topic3",
-//   },
-//   {
-//     type: "ship",
-//     name: "sensor4",
-//     topic: "topic4",
-//   },
-// ];
-
 const SensorTable = () => {
   const [type, setType] = useState("");
   const [name, setName] = useState("");
-  const [topic, setTopic] = useState("");
+  const [eqpId, setEqpId] = useState("");
   const [modal, setModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [sensorList, setSensorList] = useState([]);
-  const [sensor, setSensor] = useState([]);
+  const [sensor, setSensor] = useState({});
+  const [sensorId, setSensorId] = useState("");
 
   const toggleModal = () => {
     setModal(!modal);
@@ -58,10 +37,8 @@ const SensorTable = () => {
 
   const getSensorList = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}`);
-      console.log(response.data);
-      console.log("서버 응답 데이터:", response.data.response);
-      setSensorList(response.data.response);
+      const response = await axios.get(`${API_BASE_URL}/sensor/read`);
+      setSensorList(response.data);
     } catch (error) {
       console.error("불러오지 못함", error);
     }
@@ -73,12 +50,11 @@ const SensorTable = () => {
 
   const AddSensor = async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/dir/0`, {
-        name: name,
-        type: type,
-        topic: topic,
+      const response = await axios.post(`${API_BASE_URL}/sensor/create`, {
+        sensorName: name,
+        sensorType: type,
+        sensorEqpId: eqpId,
       });
-      console.log(response);
       if (response.status === 200) {
         console.log("보냈음 ");
       }
@@ -93,17 +69,10 @@ const SensorTable = () => {
       toggleModal();
       getSensorList();
       setName("");
-      setTopic("");
       setType("");
+      setEqpId("");
     } catch (error) {
       console.error("센서 등록 실패", error);
-    }
-  };
-
-  const onClickRemove = async (id) => {
-    if (window.confirm("센서를 삭제하시겠습니까?")) {
-      await axios.delete(`${API_BASE_URL}/${id}`);
-      alert("삭제되었습니다.");
     }
   };
 
@@ -132,12 +101,12 @@ const SensorTable = () => {
               />
             </div>
             <div className="input-group">
-              <span>topic</span>
+              <span>equipID</span>
               <input
                 type="text"
-                placeholder="topic"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
+                placeholder="equip Id"
+                value={eqpId}
+                onChange={(e) => setEqpId(e.target.value)}
               />
             </div>
           </div>
@@ -154,17 +123,28 @@ const SensorTable = () => {
     );
   };
 
-  const handleEditSensor = async (id) => {
+  const onClickRemove = async (id) => {
+    if (window.confirm("센서를 삭제하시겠습니까?")) {
+      await axios.patch(`${API_BASE_URL}/sensor/delete/${id}`);
+      alert("삭제되었습니다.");
+      getSensorList();
+    }
+  };
+
+  const handleEditSensor = async () => {
     try {
-      const response = await axios.put(`${API_BASE_URL}/sensor/${id}`, {
-        name: sensor.name,
-        type: sensor.type,
-        topic: sensor.topic,
-      });
-      console.log(response);
+      const response = await axios.put(
+        `${API_BASE_URL}/sensor/update/${sensorId}`,
+        {
+          sensorName: sensor.sensorName,
+          sensorType: sensor.sensorType,
+          sensorEqpId: sensor.sensorEqpId,
+        }
+      );
       if (response.status === 200) {
-        toggleEditModal();
         console.log("보냈음 ");
+        toggleEditModal();
+        getSensorList();
       }
     } catch (error) {
       console.error("수정실패", error);
@@ -179,16 +159,30 @@ const SensorTable = () => {
     }));
   };
 
-  const clickEditModal = (id) => {
-    try {
-      const response = axios.get(`${API_BASE_URL}/sensor/{id}`);
-      setSensor(response.data.response);
-    } catch (error) {
-      console.error("센서 하나 정보 불러오지 못함", error);
-    }
+  const clickEditModal = async (id) => {
+    setSensorId(id);
+    toggleEditModal();
+  };
 
+  useEffect(() => {
+    if (editModal && sensorId) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            `${API_BASE_URL}/sensor/read/${sensorId}`
+          );
+          setSensor(response.data);
+        } catch (error) {
+          console.error("센서 하나 정보 불러오지 못함", error);
+        }
+      };
+      fetchData();
+    }
+  }, [editModal, sensorId]);
+
+  const editmodal = () => {
     return (
-      <Modal isOpen={modal} toggle={toggleEditModal}>
+      <Modal isOpen={editModal} toggle={toggleEditModal}>
         <ModalHeader toggle={toggleEditModal}>센서 수정하기</ModalHeader>
         <ModalBody>
           <div className="container">
@@ -197,8 +191,9 @@ const SensorTable = () => {
               <input
                 type="text"
                 placeholder="type"
-                value={sensor.type}
+                value={sensor.sensorType}
                 onChange={onChange}
+                name="sensorType"
               />
             </div>
             <div className="input-group">
@@ -206,17 +201,19 @@ const SensorTable = () => {
               <input
                 type="text"
                 placeholder="name"
-                value={sensor.name}
+                value={sensor.sensorName}
                 onChange={onChange}
+                name="sensorName"
               />
             </div>
             <div className="input-group">
-              <span>topic</span>
+              <span>Equip Id</span>
               <input
                 type="text"
-                placeholder="topic"
-                value={sensor.topic}
+                placeholder="Equip Id"
+                value={sensor.sensorEqpId}
                 onChange={onChange}
+                name="sensorEqpId"
               />
             </div>
           </div>
@@ -225,13 +222,14 @@ const SensorTable = () => {
           <Button color="secondary" onClick={toggleEditModal}>
             취소
           </Button>
-          <Button color="primary" onClick={handleEditSensor(id)}>
+          <Button color="primary" onClick={handleEditSensor}>
             수정완료
           </Button>
         </ModalFooter>
       </Modal>
     );
   };
+
   return (
     <div>
       <Card>
@@ -267,33 +265,33 @@ const SensorTable = () => {
                 <th></th>
               </tr>
             </thead>
-            {sensorList.length === 0 ? (
-              <p>센서를 등록해주세요.</p>
-            ) : (
+            {sensorList ? (
               <tbody>
                 {sensorList.map((sensor) => (
-                  <tr key={sensor.id} className="border-top">
+                  <tr key={sensor.sensorEqpId} className="border-top">
                     <td>
                       <div className="d-flex align-items-center p-2">
                         <img
-                          src={sensor.type === "ship" ? ship : transporter}
+                          src={
+                            sensor.sensorType === "ship" ? ship : transporter
+                          }
                           alt="avatar"
                           width="45"
                           height="45"
                         />
                         <div className="ms-3">
-                          <h5 className="mb-0">{sensor.name}</h5>
+                          <h5 className="mb-0">{sensor.sensorName}</h5>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <h5 className="mb-0">{sensor.topic}</h5>
+                      <h5 className="mb-0">{sensor.sensorTopic}</h5>
                     </td>
                     <td className="text-end">
                       <Button
                         color="info"
                         size="sm"
-                        onClick={() => clickEditModal(sensor.id)}
+                        onClick={() => clickEditModal(sensor.sensorId)}
                       >
                         Edit
                       </Button>
@@ -302,7 +300,7 @@ const SensorTable = () => {
                       <Button
                         color="danger"
                         size="sm"
-                        onClick={() => onClickRemove(sensor.id)}
+                        onClick={() => onClickRemove(sensor.sensorId)}
                       >
                         Remove
                       </Button>
@@ -310,11 +308,14 @@ const SensorTable = () => {
                   </tr>
                 ))}
               </tbody>
+            ) : (
+              <p>센서를 등록해주세요.</p>
             )}
           </Table>
         </CardBody>
       </Card>
       {clickModal()}
+      {editmodal()}
     </div>
   );
 };
