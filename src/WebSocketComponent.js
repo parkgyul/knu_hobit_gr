@@ -1,36 +1,34 @@
-import React, { useState, useEffect } from "react";
-import Stomp from "stompjs";
+// WebSocketComponent.js
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { receiveDataAction } from "./redux/actions";
+import { SOCKET_URL } from "./config";
 
 const WebSocketComponent = () => {
-  const [data, setData] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080/ws");
-    const stomp = Stomp.over(socket);
-    stomp.connect({}, () => {
-      console.log("Connected to WebSocket");
-      stomp.subscribe("/topic/data", (response) => {
-        const jsonData = JSON.parse(response.body);
-        setData(jsonData);
-      });
-    });
-    return () => {
-      stomp.disconnect();
-    };
-  }, []);
+    const socket = new WebSocket(`${SOCKET_URL}`);
 
-  return (
-    <div>
-      {data ? (
-        <div>
-          <h2>Data Received:</h2>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
-      ) : (
-        <p>No data received yet.</p>
-      )}
-    </div>
-  );
+    socket.onopen = () => {
+      console.log("WebSocket 연결 성공");
+    };
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      dispatch(receiveDataAction(data));
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket 연결 닫힘");
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [dispatch]);
+
+  return <div>{/* WebSocket 컴포넌트의 나머지 내용 */}</div>;
 };
 
 export default WebSocketComponent;

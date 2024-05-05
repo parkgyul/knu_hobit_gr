@@ -22,6 +22,7 @@ const navigation = [
     href: "/sensor",
     icon: "bi bi-plus-square",
   },
+  { title: "redux보기", href: "/ReduxView", icon: "bi bi-plus-circle" },
 ];
 const Sidebar = () => {
   const showMobilemenu = () => {

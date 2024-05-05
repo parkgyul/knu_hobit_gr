@@ -22,6 +22,7 @@ const Tables = lazy(() => import("../views/ui/Tables"));
 const Forms = lazy(() => import("../views/ui/Forms"));
 const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
 
+const ReduxView = lazy(() => import("../pages/ReduxStateViewer"));
 /*****Routes******/
 /*
 // 인증된 사용자인지 확인하는 함수
@@ -124,12 +125,12 @@ const ThemeRoutes = [
     path: "/",
     element: <FullLayout />,
     children: [
-//    { path: "/", element: <Navigate to="/login" /> },
-      { path: "/", element: <Starter/> },
-      { path: "/sensor", element: <Sensor />},
-      { path: "/Starter", exact: true, element: <Starter/> },
-      { path: "/DataSet", exact: true, element: <DataSet/> },
-      { path: "/Analysis", exact: true, element: <Analysis/> },
+      //    { path: "/", element: <Navigate to="/login" /> },
+      { path: "/", element: <Starter /> },
+      { path: "/sensor", element: <Sensor /> },
+      { path: "/Starter", exact: true, element: <Starter /> },
+      { path: "/DataSet", exact: true, element: <DataSet /> },
+      { path: "/Analysis", exact: true, element: <Analysis /> },
       { path: "/login", exact: true, element: <Login /> },
       { path: "/join", exact: true, element: <Join /> },
       { path: "/about", exact: true, element: <About /> },
@@ -141,6 +142,7 @@ const ThemeRoutes = [
       { path: "/table", exact: true, element: <Tables /> },
       { path: "/forms", exact: true, element: <Forms /> },
       { path: "/breadcrumbs", exact: true, element: <Breadcrumbs /> },
+      { path: "/ReduxView", exact: true, element: <ReduxView /> },
     ],
   },
 ];

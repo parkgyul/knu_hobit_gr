@@ -1,2 +1,3 @@
 const API_BASE_URL = "http://127.0.0.1:8080";
-export { API_BASE_URL };
+const SOCKET_URL = "ws://127.0.0.1:8080";
+export { API_BASE_URL, SOCKET_URL };
