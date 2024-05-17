@@ -16,6 +16,7 @@ const WebSocketComponent = () => {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      // WebSocket으로부터 받은 데이터를 Redux store에 전달하기 위해 receiveDataAction을 dispatch합니다.
       dispatch(receiveDataAction(data));
     };
 

@@ -3,17 +3,17 @@ import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
   {
-    title: "모니터링",
+    title: "모니터링",//트랜스포터 
     href: "/starter",
     icon: "bi bi-speedometer2",
   },
   {
-    title: "데이터셋",
+    title: "데이터셋", //공공데이터 조회(column 등등 별로 )
     href: "/DataSet",
     icon: "bi bi-plus-square",
   },
   {
-    title: "분석",
+    title: "ML 모델",// 데이터 모델 학습 
     href: "/analysis",
     icon: "bi bi-card-text",
   },
