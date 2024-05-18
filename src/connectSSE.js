@@ -17,25 +17,11 @@ const ConnectSSE = () => {
     console.log("됐니?");
     console.log(eventSource);
 
-    // 이벤트 핸들러 등록
-    // eventSource.onopen = (response) => {
-    //   console.log("연결됬우");
-    //   // console.log(response);
-    // };
-
-    // eventSource.addEventListener("connect", (event) => {
-    //   const { data: data } = event;
-    //   console.log("data: ", data);
-    //   console.log("event: ", event);
-    //   // if(data === 'isTrue'){
-    //   //   console.log("isTrue);
-    //   // }
-    // });
-
     eventSource.onmessage = function (event) {
       const data = JSON.parse(event.data);
-      console.log("data: ", data);
+
       setMessage((prevMessage) => [...prevMessage, data]);
+      dispatch(receiveDataAction(data));
     };
 
     eventSource.onerror = (error) => {

@@ -15,7 +15,7 @@ const ReduxStateViewer = () => {
           <p>메시지 목록:</p>
           <ul>
             {messages.map((message, index) => (
-              <li key={index}>{message}</li>
+              <li key={index}>{JSON.stringify(message)}</li>
             ))}
           </ul>
         </div>
