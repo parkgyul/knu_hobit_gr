@@ -1,4 +1,5 @@
 import { Col, Row } from "reactstrap";
+import ConnectSSE from "../connectSSE.js";
 
 import Options from "../components/dashboard/options.js";
 import ProjectTables from "../components/dashboard/ProjectTable";
@@ -7,9 +8,9 @@ import Location from "../components/dashboard/location.js";
 const Starter = () => {
   return (
     <div>
-      {/***Top Cards***/}
+      {/* StarterComponent를 렌더링 */}
+      <ConnectSSE />
 
-      {/***Sales & Feed***/}
       <Row>
         <Col sm="6" lg="6" xl="7" xxl="8">
           <Location />
@@ -20,7 +21,7 @@ const Starter = () => {
       </Row>
 
       {/* 추가적인 빈 공간 */}
-      <div style={{ marginBottom: '20px' }}></div>
+      <div style={{ marginBottom: "20px" }}></div>
 
       {/***Table ***/}
       <Row>
@@ -28,7 +29,6 @@ const Starter = () => {
           <ProjectTables />
         </Col>
       </Row>
-        
     </div>
   );
 };

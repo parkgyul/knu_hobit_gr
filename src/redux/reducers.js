@@ -1,4 +1,3 @@
-// reducers.js
 import { RECEIVE_DATA } from "./actions";
 
 const initialState = {

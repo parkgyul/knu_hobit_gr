@@ -1,47 +1,62 @@
-/* global kakao */
-// eslint-disable-next-line
-import { Card, CardBody, CardSubtitle, CardTitle, Row, Col } from "reactstrap";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import fullopr from "../../assets/images/logos/fullopr.svg";
-import fullstop from "../../assets/images/logos/fullstop.svg";
-import empopr from "../../assets/images/logos/empopr.svg";
-import empstop from "../../assets/images/logos/empstop.svg";
-
 
 const Location = () => {
+  const messages = useSelector((state) => state.messages) || [];
+  const [map, setMap] = useState(null); // 카카오 맵 객체
+  const [marker, setMarker] = useState(null); // 마커 객체
+
   useEffect(() => {
-    var container = document.getElementById("map");
-    var options = {
-      center: new kakao.maps.LatLng(34.874414, 128.70144),
-      level: 4,
+    // 카카오 맵 초기화
+    const container = document.getElementById("map");
+    const options = {
+      center: new window.kakao.maps.LatLng(34.874414, 128.70144),
+      level: 5,
     };
+    const newMap = new window.kakao.maps.Map(container, options);
+    setMap(newMap);
 
-    var map = new kakao.maps.Map(container, options);
-    var markerPositions = [
-      { position: new kakao.maps.LatLng(34.872408, 128.701388), imageSrc: fullopr },
-      { position: new kakao.maps.LatLng(34.873796, 128.699814), imageSrc: fullstop },
-      { position: new kakao.maps.LatLng(34.875612, 128.703655), imageSrc: empopr },
-      { position: new kakao.maps.LatLng(34.872450, 128.702243), imageSrc: empstop },
-      { position: new kakao.maps.LatLng(34.874016, 128.705163), imageSrc: fullopr },
-      { position: new kakao.maps.LatLng(34.874235, 128.702701), imageSrc: empstop },
-      // 추가적인 마커 좌표들을 여기에 추가하고 각각의 이미지 경로를 설정
-    ];
-
-    markerPositions.forEach(({ position, imageSrc }) => {
-      var imageSize = new kakao.maps.Size(40, 40);
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-      
-      var marker = new kakao.maps.Marker({
-        position: position,
-        image: markerImage,
-      });
-      marker.setMap(map);
+    const initialMarker = new window.kakao.maps.Marker({
+      position: new window.kakao.maps.LatLng(0, 0), // 초기 위치
+      image: new window.kakao.maps.MarkerImage(
+        fullopr,
+        new window.kakao.maps.Size(40, 40)
+      ),
     });
+    initialMarker.setMap(newMap);
+    setMarker(initialMarker);
   }, []);
+
+  useEffect(() => {
+    const latestMessage = messages[messages.length - 1];
+    if (latestMessage && map && marker) {
+      const newPosition = new window.kakao.maps.LatLng(
+        parseFloat(latestMessage.gps_lat),
+        parseFloat(latestMessage.gps_lon)
+      );
+      marker.setPosition(newPosition); // 마커 위치 변경
+    }
+  }, [messages, map, marker]);
 
   return (
     <div style={{ border: "5px solid #E6EAFE" }}>
       <div id="map" style={{ width: "100%", height: "400px" }}></div>
+      <h2>Redux 상태 확인</h2>
+      {messages.length === 0 ? (
+        <p>메시지가 없습니다.</p>
+      ) : (
+        <div>
+          <p>메시지 목록:</p>
+          <ul>
+            {messages.map((message, index) => (
+              <li key={index}>
+                Latitude: {message.gps_lat}, Longitude: {message.gps_lon}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
