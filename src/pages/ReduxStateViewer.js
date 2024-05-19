@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const ReduxStateViewer = () => {
-  // Redux store의 상태를 가져옵니다.
   const messages = useSelector((state) => state.messages) || [];
 
   return (
