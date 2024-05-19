@@ -32,8 +32,8 @@ const Location = () => {
     const latestMessage = messages[messages.length - 1];
     if (latestMessage && map && marker) {
       const newPosition = new window.kakao.maps.LatLng(
-        parseFloat(latestMessage.gps_lat),
-        parseFloat(latestMessage.gps_lon)
+        parseFloat(latestMessage.gps_lat).toFixed(5),
+        parseFloat(latestMessage.gps_lon).toFixed(5)
       );
       marker.setPosition(newPosition); // 마커 위치 변경
     }
@@ -42,7 +42,7 @@ const Location = () => {
   return (
     <div style={{ border: "5px solid #E6EAFE" }}>
       <div id="map" style={{ width: "100%", height: "400px" }}></div>
-      <h2>Redux 상태 확인</h2>
+      {/*<h2>Redux 상태 확인</h2>
       {messages.length === 0 ? (
         <p>메시지가 없습니다.</p>
       ) : (
@@ -51,12 +51,13 @@ const Location = () => {
           <ul>
             {messages.map((message, index) => (
               <li key={index}>
-                Latitude: {message.gps_lat}, Longitude: {message.gps_lon}
+                Latitude: {message.gps_lat}, Longitudessss: {message.gps_lon}
+                ,weight : {message.weight}
               </li>
             ))}
           </ul>
         </div>
-      )}
+      )}*/}
     </div>
   );
 };

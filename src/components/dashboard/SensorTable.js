@@ -86,7 +86,7 @@ const SensorTable = () => {
               <span>type</span>
               <input
                 type="text"
-                placeholder="type"
+                placeholder="transport [or] ship"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
               />
