@@ -1,54 +1,48 @@
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
-import user1 from "../../assets/images/users/user1.jpg";
-import user2 from "../../assets/images/users/user2.jpg";
-import user3 from "../../assets/images/users/user3.jpg";
-import user4 from "../../assets/images/users/user4.jpg";
-import user5 from "../../assets/images/users/user5.jpg";
-
-const tableData = [
-  {
-    avatar: user1,
-    name: "0012030",
-    project: "?kg",
-    status: "pending",
-    weeks: "35",
-    budget: "95K",
-  },
-  {
-    avatar: user2,
-    name: "134235",
-    project: "?kg",
-    status: "done",
-    weeks: "35",
-    budget: "95K",
-  },
-  {
-    avatar: user3,
-    name: "1234534",
-    project: "?kg",
-    status: "holt",
-    weeks: "35",
-    budget: "95K",
-  },
-  {
-    avatar: user4,
-    name: "295839",
-    project: "?kg",
-    status: "pending",
-    weeks: "35",
-    budget: "95K",
-  },
-  {
-    avatar: user5,
-    name: "234091",
-    project: "?kg",
-    status: "done",
-    weeks: "35",
-    budget: "95K",
-  },
-];
+import transporter from "../../assets/images/users/transporter.png";
+import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../config";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const ProjectTables = () => {
+  const messages = useSelector((state) => state.messages) || [];
+  const [sensorList, setSensorList] = useState([]);
+
+  const getSensorList = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/sensor/read`);
+      setSensorList(response.data);
+    } catch (error) {
+      console.error("불러오지 못함", error);
+    }
+  };
+
+  useEffect(() => {
+    getSensorList();
+  }, []);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      const latestMessage = messages[messages.length - 1];
+      if (latestMessage) {
+        const updatedSensorList = sensorList.map((sensor) => {
+          console.log("똑같은데ㅔㅔㅔㅔ", sensor.sensorEqpId);
+          console.log("dma.....", latestMessage.eqp_id);
+          if (String(sensor.sensorEqpId) === String(latestMessage.eqp_id)) {
+            console.log("왜 안들어 오냐고 ");
+            return {
+              ...sensor,
+              weight: parseFloat(latestMessage.weight).toFixed(3),
+            };
+          }
+          return sensor;
+        });
+        setSensorList(updatedSensorList);
+      }
+    }
+  }, [messages, sensorList]);
+
   return (
     <div>
       <Card>
@@ -63,42 +57,41 @@ const ProjectTables = () => {
               <tr>
                 <th>ID</th>
                 <th>현재 중량물</th>
-
                 <th>운행상태</th>
                 <th>운행시간</th>
                 <th>누적 운행시간</th>
               </tr>
             </thead>
             <tbody>
-              {tableData.map((tdata, index) => (
+              {sensorList.map((sensor, index) => (
                 <tr key={index} className="border-top">
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <img
-                        src={tdata.avatar}
+                        src={transporter}
                         className="rounded-circle"
                         alt="avatar"
                         width="45"
                         height="45"
                       />
                       <div className="ms-3">
-                        <h6 className="mb-0">{tdata.name}</h6>
-                        <span className="text-muted">{tdata.email}</span>
+                        <h6 className="mb-0">{sensor.sensorEqpId}</h6>
+                        <span className="text-muted">{sensor.email}</span>
                       </div>
                     </div>
                   </td>
-                  <td>{tdata.project}</td>
+                  <td>{sensor.weight ? sensor.weight + " ton" : "N/A"}</td>
                   <td>
-                    {tdata.status === "pending" ? (
+                    {sensor.status === "pending" ? (
                       <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
-                    ) : tdata.status === "holt" ? (
+                    ) : sensor.status === "holt" ? (
                       <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
                     ) : (
                       <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
                     )}
                   </td>
-                  <td>{tdata.weeks}</td>
-                  <td>{tdata.budget}</td>
+                  <td>{sensor.weeks}</td>
+                  <td>{sensor.budget}</td>
                 </tr>
               ))}
             </tbody>
