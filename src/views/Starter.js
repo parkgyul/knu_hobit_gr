@@ -2,7 +2,7 @@ import { Col, Row } from "reactstrap";
 import ConnectSSE from "../connectSSE.js";
 
 import Options from "../components/dashboard/options.js";
-import ProjectTables from "../components/dashboard/ProjectTable";
+import ProjectTables from "../components/dashboard/TransporterTable.js";
 import Location from "../components/dashboard/location.js";
 
 const Starter = () => {
