@@ -27,10 +27,7 @@ const ProjectTables = () => {
       const latestMessage = messages[messages.length - 1];
       if (latestMessage) {
         const updatedSensorList = sensorList.map((sensor) => {
-          console.log("똑같은데ㅔㅔㅔㅔ", sensor.sensorEqpId);
-          console.log("dma.....", latestMessage.eqp_id);
           if (String(sensor.sensorEqpId) === String(latestMessage.eqp_id)) {
-            console.log("왜 안들어 오냐고 ");
             return {
               ...sensor,
               weight: parseFloat(latestMessage.weight).toFixed(3),

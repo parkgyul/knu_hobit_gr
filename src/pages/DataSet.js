@@ -11,14 +11,13 @@ const Starter = () => {
 
       {/***Sales & Feed***/}
       <Row>
-      
         <Col sm="6" lg="6" xl="5" xxl="4">
           <Options />
         </Col>
       </Row>
 
       {/* 추가적인 빈 공간 */}
-      <div style={{ marginBottom: '20px' }}></div>
+      <div style={{ marginBottom: "20px" }}></div>
 
       {/***Table ***/}
       <Row>
@@ -26,7 +25,6 @@ const Starter = () => {
           <ProjectTables />
         </Col>
       </Row>
-        
     </div>
   );
 };
