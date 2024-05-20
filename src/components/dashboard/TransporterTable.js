@@ -49,7 +49,13 @@ const ProjectTables = () => {
             .
           </CardSubtitle>
 
-          <Table className="no-wrap mt-3 align-middle" responsive borderless>
+          <Table
+            className="no-wrap mt-3 align-middle"
+            variant="dark"
+            responsive
+            borderless
+            hover
+          >
             <thead>
               <tr>
                 <th>ID</th>
