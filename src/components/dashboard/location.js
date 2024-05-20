@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import fullopr from "../../assets/images/logos/fullopr.svg";
-
+import empopr from "../../assets/images/logos/empopr.svg";
 const Location = () => {
   const messages = useSelector((state) => state.messages) || [];
   const [map, setMap] = useState(null); // 카카오 맵 객체
-  const [marker, setMarker] = useState(null); // 마커 객체
+  const markersRef = useRef({}); // 마커 객체들 저장
 
   useEffect(() => {
     // 카카오 맵 초기화
@@ -16,28 +16,41 @@ const Location = () => {
     };
     const newMap = new window.kakao.maps.Map(container, options);
     setMap(newMap);
-
-    const initialMarker = new window.kakao.maps.Marker({
-      position: new window.kakao.maps.LatLng(0, 0), // 초기 위치
-      image: new window.kakao.maps.MarkerImage(
-        fullopr,
-        new window.kakao.maps.Size(40, 40)
-      ),
-    });
-    initialMarker.setMap(newMap);
-    setMarker(initialMarker);
   }, []);
 
   useEffect(() => {
-    const latestMessage = messages[messages.length - 1];
-    if (latestMessage && map && marker) {
+    const message = messages[messages.length - 1];
+    if (message && map) {
+      // 메시지 목록을 순회하면서 각 eqp_id에 대해 마커 생성/업데이트
+      const { eqp_id, gps_lat, gps_lon, weight } = message;
+
+      //marker들의 정보 저장하기 (위치, 무게)
       const newPosition = new window.kakao.maps.LatLng(
-        parseFloat(latestMessage.gps_lat).toFixed(5),
-        parseFloat(latestMessage.gps_lon).toFixed(5)
+        parseFloat(gps_lat).toFixed(7),
+        parseFloat(gps_lon).toFixed(7)
       );
-      marker.setPosition(newPosition); // 마커 위치 변경
+      const markerImageSrc = weight > 0 ? fullopr : empopr;
+      const markerImage = new window.kakao.maps.MarkerImage(
+        markerImageSrc,
+        new window.kakao.maps.Size(40, 40)
+      );
+
+      // 마커가 이미 존재하는 경우, 그냥 위치 업데이트
+      if (markersRef.current[eqp_id]) {
+        markersRef.current[eqp_id].setPosition(newPosition);
+        markersRef.current[eqp_id].setImage(markerImage);
+      } else {
+        // 마커가 존재하지 않으면 새로 생성
+        const newMarker = new window.kakao.maps.Marker({
+          position: newPosition,
+          image: markerImage,
+        });
+        newMarker.setMap(map);
+        markersRef.current[eqp_id] = newMarker;
+        console.log("New marker created for eqp_id:", eqp_id);
+      }
     }
-  }, [messages, map, marker]);
+  }, [messages, map]);
 
   return (
     <div style={{ border: "5px solid #E6EAFE" }}>
@@ -51,8 +64,8 @@ const Location = () => {
           <ul>
             {messages.map((message, index) => (
               <li key={index}>
-                Latitude: {message.gps_lat}, Longitudessss: {message.gps_lon}
-                ,weight : {message.weight}
+                Latitude: {message.gps_lat}, Longitude: {message.gps_lon}
+                , Weight: {message.weight}
               </li>
             ))}
           </ul>
