@@ -1,9 +1,17 @@
-import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+  Table,
+  Button,
+} from "reactstrap";
 import transporter from "../../assets/images/users/transporter.png";
 import React, { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../config";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import "./table.css";
 
 const ProjectTables = () => {
   const messages = useSelector((state) => state.messages) || [];
@@ -38,7 +46,7 @@ const ProjectTables = () => {
         setSensorList(updatedSensorList);
       }
     }
-  }, [messages, sensorList]);
+  }, [messages]);
 
   return (
     <div>
@@ -48,57 +56,60 @@ const ProjectTables = () => {
           <CardSubtitle className="mb-2 text-muted" tag="h6">
             .
           </CardSubtitle>
-
-          <Table
-            className="no-wrap mt-3 align-middle"
-            variant="dark"
-            responsive
-            borderless
-            hover
-          >
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>현재 중량물</th>
-                <th>운행상태</th>
-                <th>운행시간</th>
-                <th>누적 운행시간</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sensorList.map((sensor, index) => (
-                <tr key={index} className="border-top">
-                  <td>
-                    <div className="d-flex align-items-center p-2">
-                      <img
-                        src={transporter}
-                        className="rounded-circle"
-                        alt="avatar"
-                        width="45"
-                        height="45"
-                      />
-                      <div className="ms-3">
-                        <h6 className="mb-0">{sensor.sensorEqpId}</h6>
-                        <span className="text-muted">{sensor.email}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>{sensor.weight ? sensor.weight + " ton" : "N/A"}</td>
-                  <td>
-                    {sensor.status === "pending" ? (
-                      <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
-                    ) : sensor.status === "holt" ? (
-                      <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
-                    ) : (
-                      <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
-                    )}
-                  </td>
-                  <td>{sensor.weeks}</td>
-                  <td>{sensor.budget}</td>
+          <div className="fixed-header">
+            <Table
+              className="no-wrap mt-3 align-middle"
+              variant="dark"
+              responsive
+              hover
+            >
+              <thead class={{ float: "fixed" }}>
+                <tr>
+                  <th> 장비 ID</th>
+                  <th>현재 중량물</th>
+                  <th>운행상태</th>
+                  <th style={{ float: "left" }}> 누적운행시간 보기</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {sensorList.map((sensor, index) => (
+                  <tr key={index} className="border-top">
+                    <td>
+                      <div className="d-flex align-items-center p-2">
+                        <img
+                          src={transporter}
+                          className="rounded-circle"
+                          alt="avatar"
+                          width="45"
+                          height="45"
+                        />
+                        <div className="ms-3">
+                          <h6 className="mb-0">{sensor.sensorEqpId}</h6>
+                          <span className="text-muted">{sensor.email}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{sensor.weight ? sensor.weight + " ton" : "N/A"}</td>
+                    <td>
+                      {sensor.status === "pending" ? (
+                        <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
+                      ) : sensor.status === "holt" ? (
+                        <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
+                      ) : (
+                        <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
+                      )}
+                    </td>
+                    <td>
+                      <Button color="secondary" class key={sensor.sensorEqpId}>
+                        {sensor.sensorEqpId}
+                        's 누적운행시간
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
         </CardBody>
       </Card>
     </div>
