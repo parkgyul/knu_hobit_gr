@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Card,
   CardBody,
@@ -8,11 +8,10 @@ import {
   Button,
 } from "reactstrap";
 import "../../App.css";
-import Checkbox from "./Checkbox.js";
-import ApplyButton from "./ApplyButton.js";
+import Checkbox from "./Checkbox";
+import ApplyButton from "./ApplyButton";
 import "./ApplyButton.scss";
-import axios from "axios";
-import { API_BASE_URL } from "../../config.js";
+
 const OPERATION = [
   { value: "all", name: "전체" },
   { value: "O", name: "운행 중" },
@@ -25,13 +24,13 @@ const LOAD = [
 ];
 const SelectBox = (props) => {
   return (
-    <select style={{ width: "180px" }}>
+    <select
+      style={{ width: "180px" }}
+      value={props.value}
+      onChange={(e) => props.onChange(e.target.value)}
+    >
       {props.options.map((option) => (
-        <option
-          key={option.value}
-          value={option.value}
-          defaultValue={props.defaultValue === option.value}
-        >
+        <option key={option.value} value={option.value}>
           {option.name}
         </option>
       ))}
@@ -39,23 +38,15 @@ const SelectBox = (props) => {
   );
 };
 
-const Options = () => {
-  const [selectedIds, setSelectedIds] = useState([]);
-  const [sensorList, setSensorList] = useState([]);
-
-  const getSensorList = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/sensor/read`);
-      setSensorList(response.data);
-    } catch (error) {
-      console.error("불러오지 못함", error);
-    }
-  };
-
-  useEffect(() => {
-    getSensorList();
-  }, []);
-
+const Options = ({
+  selectedIds,
+  setSelectedIds,
+  operationStatus,
+  setOperationStatus,
+  loadStatus,
+  setLoadStatus,
+  sensorList,
+}) => {
   const handleCheckboxChange = (value) => {
     setSelectedIds((prevSelected) =>
       prevSelected.includes(value)
@@ -65,17 +56,13 @@ const Options = () => {
   };
 
   const handleSelectAll = () => {
-    const sensorId = sensorList.map((sensor) => {
-      return sensor.sensorEqpId;
-    });
+    const sensorId = sensorList.map((sensor) => sensor.sensorEqpId);
     setSelectedIds(sensorId);
   };
 
   const handleDeselectAll = () => {
     setSelectedIds([]);
   };
-
-  const checkboxes = ["0000", "0001", "0010", "0100", "1200"];
 
   return (
     <Card>
@@ -94,10 +81,7 @@ const Options = () => {
               color="secondary"
               size="sm"
               onClick={handleSelectAll}
-              style={{
-                marginLeft: "100px",
-                marginRight: "10px",
-              }}
+              style={{ marginLeft: "100px", marginRight: "10px" }}
             >
               전체 선택
             </Button>
@@ -105,24 +89,35 @@ const Options = () => {
               전체 해제
             </Button>
             <div style={{ marginBottom: "10px" }} />
-            {sensorList.map((sensor) => (
-              <Checkbox
-                key={sensor.id}
-                value={sensor.sensorEqpId}
-                onChange={() => handleCheckboxChange(sensor.sensorEqpId)}
-                checked={selectedIds.includes(sensor.sensorEqpId)}
-              >
-                {sensor.sensorEqpId} &nbsp;
-              </Checkbox>
-            ))}
+            {sensorList &&
+              sensorList.map((sensor) => (
+                <Checkbox
+                  key={sensor.id}
+                  value={sensor.sensorEqpId}
+                  onChange={() => handleCheckboxChange(sensor.sensorEqpId)}
+                  checked={selectedIds.includes(sensor.sensorEqpId)}
+                >
+                  {sensor.sensorEqpId} &nbsp;
+                </Checkbox>
+              ))}
             <div style={{ marginBottom: "20px" }} />
             <hr style={{ borderTop: "3px solid #B9B8B8" }} />
             <div style={{ marginBottom: "10px" }} />
-            상/하차: <SelectBox options={LOAD} defaultValue="all" />
+            상/하차:
+            <SelectBox
+              options={LOAD}
+              value={loadStatus}
+              onChange={setLoadStatus}
+            />
             <div style={{ marginBottom: "10px" }} />
             <hr style={{ borderTop: "3px solid #B9B8B8" }} />
             <div style={{ marginBottom: "10px" }} />
-            운행 여부: <SelectBox options={OPERATION} defaultValue="all" />
+            운행 여부:
+            <SelectBox
+              options={OPERATION}
+              value={operationStatus}
+              onChange={setOperationStatus}
+            />
             <div style={{ marginBottom: "10px" }} />
           </CardTitle>
         </ListGroup>
