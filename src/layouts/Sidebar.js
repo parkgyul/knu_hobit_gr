@@ -9,7 +9,7 @@ const navigation = [
   },
   {
     title: "데이터셋", //공공데이터 조회(column 등등 별로 )
-    href: "/DataSet",
+    href: "/dataset",
     icon: "bi bi-plus-square",
   },
   {

@@ -12,7 +12,7 @@ const Location = () => {
     const container = document.getElementById("map");
     const options = {
       center: new window.kakao.maps.LatLng(34.874414, 128.70144),
-      level: 5,
+      level: 6,
     };
     const newMap = new window.kakao.maps.Map(container, options);
     setMap(newMap);
@@ -50,7 +50,7 @@ const Location = () => {
         console.log("New marker created for eqp_id:", eqp_id);
       }
     }
-  }, [messages, map]);
+  }, [messages]);
 
   return (
     <div style={{ border: "5px solid #E6EAFE" }}>
