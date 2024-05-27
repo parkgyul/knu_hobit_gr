@@ -16,34 +16,53 @@ import { useSelector } from "react-redux";
 import { API_BASE_URL } from "../../config";
 import "./table.css";
 
-const ProjectTables = () => {
+const ProjectTables = ({
+  selectedIds,
+  operationStatus,
+  loadStatus,
+  sensorList,
+}) => {
   const messages = useSelector((state) => state.messages) || [];
-  const [sensorList, setSensorList] = useState([]);
+  const [filteredSensorList, setFilteredSensorList] = useState([]);
   const [operatedTime, setOperatedTime] = useState();
   const [modal, setModal] = useState(false);
   const [eqpId, setEqpId] = useState();
+
   const toggleModal = () => {
     setModal(!modal);
   };
 
-  const getSensorList = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/sensor/read`);
-      setSensorList(response.data);
-    } catch (error) {
-      console.error("불러오지 못함", error);
-    }
-  };
-
   useEffect(() => {
-    getSensorList();
-  }, []);
+    const filterSensors = () => {
+      let filtered = sensorList;
+
+      if (selectedIds.length > 0) {
+        filtered = filtered.filter((sensor) =>
+          selectedIds.includes(sensor.sensorEqpId)
+        );
+      }
+      if (operationStatus !== "all") {
+        filtered = filtered.filter(
+          (sensor) => sensor.weight > 0 || sensor.weight < 0
+        );
+      }
+      if (loadStatus !== "all") {
+        filtered = filtered.filter((sensor) =>
+          loadStatus === "O" ? sensor.weight >= 0 : sensor.weight < 0
+        );
+      }
+
+      setFilteredSensorList(filtered);
+    };
+
+    filterSensors();
+  }, [selectedIds, operationStatus, loadStatus, sensorList]);
 
   useEffect(() => {
     if (messages.length > 0) {
       const latestMessage = messages[messages.length - 1];
       if (latestMessage) {
-        const updatedSensorList = sensorList.map((sensor) => {
+        const updatedSensorList = filteredSensorList.map((sensor) => {
           if (String(sensor.sensorEqpId) === String(latestMessage.eqp_id)) {
             return {
               ...sensor,
@@ -52,7 +71,7 @@ const ProjectTables = () => {
           }
           return sensor;
         });
-        setSensorList(updatedSensorList);
+        setFilteredSensorList(updatedSensorList);
       }
     }
   }, [messages]);
@@ -75,16 +94,8 @@ const ProjectTables = () => {
       <Card>
         <CardBody>
           <CardTitle tag="h5">트랜스포터</CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            .
-          </CardSubtitle>
           <div className="fixed-header">
-            <Table
-              className="no-wrap mt-3 align-middle"
-              variant="dark"
-              responsive
-              hover
-            >
+            <Table className="no-wrap mt-3 align-middle" responsive hover>
               <thead>
                 <tr>
                   <th>장비 ID</th>
@@ -94,7 +105,7 @@ const ProjectTables = () => {
                 </tr>
               </thead>
               <tbody>
-                {sensorList.map((sensor, index) => (
+                {filteredSensorList.map((sensor, index) => (
                   <tr key={index} className="border-top">
                     <td>
                       <div className="d-flex align-items-center p-2">
@@ -107,6 +118,7 @@ const ProjectTables = () => {
                         />
                         <div className="ms-3">
                           <h6 className="mb-0">{sensor.sensorName}</h6>
+
                           <span className="text-muted">
                             {sensor.sensorEqpId}
                           </span>

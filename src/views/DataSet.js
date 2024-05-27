@@ -1,13 +1,15 @@
+import React, { useState } from "react";
 import { Col, Row } from "reactstrap";
-import { useState } from "react";
 import DataSetOption from "../components/dashboard/DataSetOption.js";
 import DataSetMonitoring from "../components/dashboard/DataSetMonitoring.js";
 
 const DataSet = () => {
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState([]);
 
   const handleTypeChange = (type) => {
-    setSelectedType(type);
+    // 선택된 데이터를 배열에 추가
+    setSelectedTypes([...selectedTypes, type]);
+    console.log("선택된 데이터: ", type);
   };
 
   return (
@@ -24,7 +26,7 @@ const DataSet = () => {
       {/***Table ***/}
       <Row>
         <Col lg="12">
-          <DataSetMonitoring selectedType={selectedType} />
+          <DataSetMonitoring selectedTypes={selectedTypes} />
         </Col>
       </Row>
     </div>
