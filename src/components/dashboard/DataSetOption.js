@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../../config.js";
 import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from "reactstrap";
 import Checkbox from "./Checkbox";
+import { logRoles } from "@testing-library/react";
 const DataSetOption = ({ onTypeChange }) => {
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
@@ -55,8 +56,12 @@ const DataSetOption = ({ onTypeChange }) => {
       selectedTagKey,
       selectedTagValue,
     ];
-
     onTypeChange(selectedData);
+
+    setSelectedBucketName("");
+    setSelectedMeasurement("");
+    setSelectedTagKey("");
+    setSelectedTagValue("");
   };
 
   const getDataSetTypes = async () => {

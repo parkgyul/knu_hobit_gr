@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../config";
 import axios from "axios";
 import { Card, CardBody, CardTitle, Table, Spinner } from "reactstrap";
@@ -8,21 +8,22 @@ const DataSetMonitoring = ({ selectedType }) => {
   const [loading, setLoading] = useState(false);
 
   const sendDataSetTypes = async (type) => {
-    console.log(type);
-    const [bucketName, measurement] = type.split(",");
-    console.log("Bucket Name:", typeof bucketName);
-    console.log("Measurement:", typeof measurement);
-
-    setLoading(true); // Start loading
-
+    setLoading(true);
+    console.log("selectedType Test 2", selectedType);
     try {
+      const [bucketName, measurement, tag_key, tag_value] = type;
       const response = await axios.get(`${API_BASE_URL}/dataset/selection`, {
-        params: { bucket_name: bucketName, measurement: measurement },
+        params: {
+          bucket_name: bucketName,
+          measurement: measurement,
+          tag_key: tag_key,
+          tag_value: tag_value,
+        },
       });
-      console.log(response);
       setDataSet(response.data);
+      console.log(response.data);
     } catch (error) {
-      console.error("불러오지 못함", error);
+      console.error("데이터를 불러오지 못했습니다.", error);
     } finally {
       setLoading(false); // End loading
     }
@@ -79,12 +80,6 @@ const DataSetMonitoring = ({ selectedType }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      <div>count : {dataSet.count}</div>
-                      <div style={{ width: "1000px" }}>
-                        데이터 기록 start : {dataSet.start}
-                      </div>
-                      <div>데이터 기록 end : {dataSet.end}</div>
-                      <div>measurement: {dataSet.measurement}</div>
                       {dataSet.data.map((rowData, rowIndex) => (
                         <tr key={rowIndex} className="border-top">
                           {rowData.map((cellData, cellIndex) => (
@@ -99,6 +94,12 @@ const DataSetMonitoring = ({ selectedType }) => {
                 )}
               </Table>
             )}
+            <div>count : {dataSet.count}</div>
+            <div style={{ width: "1000px" }}>
+              데이터 기록 start : {dataSet.start}
+            </div>
+            <div>데이터 기록 end : {dataSet.end}</div>
+            <div>measurement: {dataSet.measurement}</div>
           </CardBody>
         </Card>
       </div>
