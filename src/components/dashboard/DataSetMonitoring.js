@@ -4,14 +4,20 @@ import axios from "axios";
 import { Card, CardBody, CardTitle, Table, Spinner } from "reactstrap";
 
 const DataSetMonitoring = ({ selectedType }) => {
-  const [dataSet, setDataSet] = useState([]);
+  const [dataSet, setDataSet] = useState({});
   const [loading, setLoading] = useState(false);
-
+  const [bucketName, setBucketName] = useState("");
+  const [measurement, setMeasurement] = useState("");
+  const [tagKey, setTagKey] = useState("");
+  const [tagValue, setTagValue] = useState("");
   const sendDataSetTypes = async (type) => {
     setLoading(true);
-    console.log("selectedType Test 2", selectedType);
     try {
       const [bucketName, measurement, tag_key, tag_value] = type;
+      setBucketName(bucketName);
+      setMeasurement(measurement);
+      setTagKey(tag_key);
+      setTagValue(tag_value);
       const response = await axios.get(`${API_BASE_URL}/dataset/selection`, {
         params: {
           bucket_name: bucketName,
@@ -37,7 +43,6 @@ const DataSetMonitoring = ({ selectedType }) => {
 
   return (
     <div>
-      selectedType : {selectedType ? selectedType : "none"}
       <div>
         <Card>
           <CardBody>
@@ -49,7 +54,12 @@ const DataSetMonitoring = ({ selectedType }) => {
               }}
             >
               <div>
-                <CardTitle tag="h5">{selectedType} Monitoring</CardTitle>
+                <CardTitle tag="h5" bold>
+                  Selected Data Type :
+                  {selectedType
+                    ? `  ${bucketName} / ${measurement} / ${tagKey} / ${tagValue}`
+                    : "none"}
+                </CardTitle>
               </div>
             </div>
             {loading ? (
@@ -68,14 +78,17 @@ const DataSetMonitoring = ({ selectedType }) => {
               <Table
                 className="no-wrap mt-3 align-middle"
                 responsive
-                borderless
+                bordered
+                variant="dark"
               >
                 {dataSet && dataSet.columns && dataSet.data ? (
                   <>
                     <thead>
                       <tr>
                         {dataSet.columns.map((col, index) => (
-                          <th key={index}>{col}</th>
+                          <th key={index} className="small-font">
+                            {col}
+                          </th>
                         ))}
                       </tr>
                     </thead>
@@ -83,7 +96,9 @@ const DataSetMonitoring = ({ selectedType }) => {
                       {dataSet.data.map((rowData, rowIndex) => (
                         <tr key={rowIndex} className="border-top">
                           {rowData.map((cellData, cellIndex) => (
-                            <td key={cellIndex}>{cellData}</td>
+                            <td key={cellIndex}>
+                              {cellData === null ? "null" : cellData}
+                            </td>
                           ))}
                         </tr>
                       ))}
@@ -94,12 +109,16 @@ const DataSetMonitoring = ({ selectedType }) => {
                 )}
               </Table>
             )}
-            <div>count : {dataSet.count}</div>
-            <div style={{ width: "1000px" }}>
-              데이터 기록 start : {dataSet.start}
-            </div>
-            <div>데이터 기록 end : {dataSet.end}</div>
-            <div>measurement: {dataSet.measurement}</div>
+            {dataSet.count !== undefined && <li>count : {dataSet.count}</li>}
+            {dataSet.start && dataSet.end && (
+              <li style={{ width: "1000px" }}>
+                데이터 기록 start : {dataSet.start}
+              </li>
+            )}
+            {dataSet.start && dataSet.end && (
+              <li>데이터 기록 end : {dataSet.end}</li>
+            )}
+            {dataSet.measurement && <li>measurement: {dataSet.measurement}</li>}
           </CardBody>
         </Card>
       </div>

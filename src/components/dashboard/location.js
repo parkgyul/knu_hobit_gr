@@ -55,22 +55,6 @@ const Location = () => {
   return (
     <div style={{ border: "5px solid #E6EAFE" }}>
       <div id="map" style={{ width: "100%", height: "400px" }}></div>
-      {/*<h2>Redux 상태 확인</h2>
-      {messages.length === 0 ? (
-        <p>메시지가 없습니다.</p>
-      ) : (
-        <div>
-          <p>메시지 목록:</p>
-          <ul>
-            {messages.map((message, index) => (
-              <li key={index}>
-                Latitude: {message.gps_lat}, Longitude: {message.gps_lon}
-                , Weight: {message.weight}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}*/}
     </div>
   );
 };
