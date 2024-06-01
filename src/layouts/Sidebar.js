@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
   {
-    title: "모니터링",//트랜스포터 
+    title: "모니터링", //트랜스포터
     href: "/starter",
     icon: "bi bi-speedometer2",
   },
@@ -13,16 +13,15 @@ const navigation = [
     icon: "bi bi-plus-square",
   },
   {
-    title: "ML 모델",// 데이터 모델 학습 
+    title: "ML 모델", // 데이터 모델 학습
     href: "/analysis",
     icon: "bi bi-card-text",
   },
   {
     title: "센서",
     href: "/sensor",
-    icon: "bi bi-plus-square",
+    icon: "bi bi-plus-circle",
   },
-  { title: "redux보기", href: "/ReduxView", icon: "bi bi-plus-circle" },
 ];
 const Sidebar = () => {
   const showMobilemenu = () => {
