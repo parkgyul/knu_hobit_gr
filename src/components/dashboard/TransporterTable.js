@@ -9,6 +9,7 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
+  Spinner, // Spinner 추가
 } from "reactstrap";
 import transporter from "../../assets/images/users/transporter.png";
 import axios from "axios";
@@ -26,7 +27,8 @@ const ProjectTables = ({
   const [filteredSensorList, setFilteredSensorList] = useState([]);
   const [operatedTime, setOperatedTime] = useState();
   const [modal, setModal] = useState(false);
-  const [eqpId, setEqpId] = useState();
+  const [eqpId, setEqpId] = useState("");
+  const [loading, setLoading] = useState(false); // loading state 추가
 
   const toggleModal = () => {
     setModal(!modal);
@@ -76,16 +78,36 @@ const ProjectTables = ({
     }
   }, [messages]);
 
+  const formatOperatedTime = (milliseconds) => {
+    const seconds = Math.floor(milliseconds / 1000);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    return `${hours}시간 ${minutes}분 ${remainingSeconds}초`;
+  };
+
   const RecieveOperatedTime = async (eqp_id) => {
     setEqpId(eqp_id);
+    toggleModal();
     try {
-      const response = await axios.get(`${API_BASE_URL}/${eqp_id}`);
-      setOperatedTime(response.data);
-      toggleModal();
+      setLoading(true); // loading 상태를 true로 설정
+      const response = await axios.get(`http://155.230.34.51:8081/chunk/read`, {
+        params: {
+          bucket: "mqtt_iot_sensor",
+          measurement: "transport",
+          tag_key: "eqp_id",
+          tag_value: eqp_id,
+          send_topic: "iot-sensor-data-p3-r1-retention1h",
+        },
+      });
+      const formattedTime = formatOperatedTime(response.data);
+      setOperatedTime(formattedTime);
     } catch (error) {
       console.error("불러오지 못함", error);
       setOperatedTime(null);
-      toggleModal();
+    } finally {
+      setLoading(false); // loading 상태를 false로 설정
     }
   };
 
@@ -159,7 +181,10 @@ const ProjectTables = ({
               <span>{eqpId}</span>
             </div>
             <div className="d-flex justify-content-center mt-3">
-              <span>누적 운행 시간: {operatedTime ? operatedTime : "N/A"}</span>
+              <span>
+                누적 운행 시간:{" "}
+                {operatedTime ? operatedTime : <Spinner color="primary" />}
+              </span>
             </div>
           </div>
         </ModalBody>
