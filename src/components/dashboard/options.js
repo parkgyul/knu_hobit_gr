@@ -102,7 +102,7 @@ const Options = ({
               ))}
             <div style={{ marginBottom: "20px" }} />
             <hr style={{ borderTop: "3px solid #B9B8B8" }} />
-            <div style={{ marginBottom: "10px" }} />
+            {/*<div style={{ marginBottom: "10px" }} />
             상/하차:
             <SelectBox
               options={LOAD}
@@ -118,7 +118,7 @@ const Options = ({
               value={operationStatus}
               onChange={setOperationStatus}
             />
-            <div style={{ marginBottom: "10px" }} />
+            <div style={{ marginBottom: "10px" }} />*/}
           </CardTitle>
         </ListGroup>
         <div className="Button">
