@@ -1,7 +1,24 @@
 import { Card, CardBody, CardSubtitle, CardTitle, Row, Col } from "reactstrap";
 import Chart from "react-apexcharts";
-
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../config";
 const SalesChart = () => {
+  const [result, setResult] = useState([]);
+
+  useEffect(() => {
+    getModelResult();
+  }, []);
+  const getModelResult = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/dataset/type`);
+      console.log(response.data.dataset_list);
+      setResult(response.data);
+    } catch (error) {
+      console.error("불러오지 못함", error);
+    }
+  };
+
   const options = {
     chart: {
       toolbar: {
@@ -39,6 +56,9 @@ const SalesChart = () => {
         "Jul",
         "Aug",
         "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
       ],
     },
     responsive: [
@@ -58,11 +78,11 @@ const SalesChart = () => {
   const series = [
     {
       name: "2020",
-      data: [20, 40, 50, 30, 40, 50, 30, 30, 40],
+      data: [10, 100, 10, 100, 10, 100, 30, 30, 40, 10, 10, 10],
     },
     {
       name: "2022",
-      data: [10, 20, 40, 60, 20, 40, 50, 60, 20],
+      data: [10, 20, 40, 60, 20, 40, 50, 60, 20, 10, 10, 10],
     },
   ];
 
@@ -77,7 +97,7 @@ const SalesChart = () => {
           <Row>
             <Col md="4">
               <h6>Total Hours</h6>
-              <h4 className="mb-0 fw-bold">10,345</h4>
+              <h4 className="mb-0 fw-bold">수정중</h4>
             </Col>
             <Col md="4">
               <h6>This Month</h6>
