@@ -28,7 +28,6 @@ const Starter = () => {
   }, []);
   return (
     <div>
-      {/* StarterComponent를 렌더링 */}
       <ConnectSSE />
 
       <Row>

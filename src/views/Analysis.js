@@ -1,21 +1,27 @@
+// Analysis.js
+import React, { useState } from "react";
 import { Col, Row } from "reactstrap";
 import SalesChart from "../components/dashboard/SalesChart";
-import Options from "../components/dashboard/options.js";
-
+import DataSet from "./DataSet.js";
+import SelectParameter from "../components/dashboard/selectParameter.js";
 
 const Analysis = () => {
+  const [dataSet, setDataSet] = useState(null);
+
+  const handleDataChange = (data) => {
+    setDataSet(data);
+  };
+
   return (
     <div>
-      {/***Top Cards***/}
-
-      {/***Sales & Feed***/}
       <Row>
         <Col sm="6" lg="6" xl="7" xxl="8">
-          <SalesChart />
+          <DataSet onDataChange={handleDataChange} />
         </Col>
         <Col sm="6" lg="6" xl="5" xxl="4">
-          <Options />
+          <SelectParameter data={dataSet} />
         </Col>
+        <SalesChart />
       </Row>
     </div>
   );

@@ -81,7 +81,7 @@ const Options = ({
               color="secondary"
               size="sm"
               onClick={handleSelectAll}
-              style={{ marginLeft: "100px", marginRight: "10px" }}
+              style={{ marginLeft: "80px", marginRight: "10px" }}
             >
               전체 선택
             </Button>
@@ -92,7 +92,7 @@ const Options = ({
             {sensorList &&
               sensorList.map((sensor) => (
                 <Checkbox
-                  key={sensor.id}
+                  key={sensor.sensorEqpId}
                   value={sensor.sensorEqpId}
                   onChange={() => handleCheckboxChange(sensor.sensorEqpId)}
                   checked={selectedIds.includes(sensor.sensorEqpId)}

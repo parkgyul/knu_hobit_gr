@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../../config.js";
 import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from "reactstrap";
 import Checkbox from "./Checkbox";
+import { logRoles } from "@testing-library/react";
 const DataSetOption = ({ onTypeChange }) => {
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
@@ -55,8 +56,12 @@ const DataSetOption = ({ onTypeChange }) => {
       selectedTagKey,
       selectedTagValue,
     ];
-
     onTypeChange(selectedData);
+
+    setSelectedBucketName("");
+    setSelectedMeasurement("");
+    setSelectedTagKey("");
+    setSelectedTagValue("");
   };
 
   const getDataSetTypes = async () => {
@@ -69,24 +74,11 @@ const DataSetOption = ({ onTypeChange }) => {
       console.error("불러오지 못함", error);
     }
   };
-  //데이터 타입 받아오는지 확인하자 !!!!
-  /*
-  const getDataSetTypes2 = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/dataset/type`);
-      console.log(response.data.dataset_list);
-    } catch (error) {
-      console.error("불러오지 못함", error);
-    }
-  };
 
-  useEffect(() => {
-    getDataSetTypes2();
-  }, []);*/
   const SelectDataType = () => {};
   return (
     <div>
-      <Button color="secondary" onClick={getDataSetTypes}>
+      <Button color="secondary" onClick={getDataSetTypes} size="sm">
         데이터셋 고르기
       </Button>
       <Modal isOpen={modal} toggle={toggleModal}>
@@ -215,14 +207,14 @@ const DataSetOption = ({ onTypeChange }) => {
             </Button>
           ) : (
             <Button
-              color="red"
+              color="secondary"
               onClick={() => {
                 toggleModal();
                 setCurrentPage(1);
                 DataTypeSubmit();
               }}
             >
-              제출하기
+              요청
             </Button>
           )}
         </ModalFooter>

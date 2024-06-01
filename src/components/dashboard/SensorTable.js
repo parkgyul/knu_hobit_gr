@@ -16,6 +16,8 @@ import transporter from "../../assets/images/users/transporter.png";
 import "../../assets/scss/layout/modalStyle.css";
 import axios from "axios";
 import { API_BASE_URL } from "../../config.js";
+import ReactPaginate from "react-paginate";
+import "./pagination.css";
 
 const SensorTable = () => {
   const [type, setType] = useState("");
@@ -26,6 +28,8 @@ const SensorTable = () => {
   const [sensorList, setSensorList] = useState([]);
   const [sensor, setSensor] = useState({});
   const [sensorId, setSensorId] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const sensorsPerPage = 7;
 
   const toggleModal = () => {
     setModal(!modal);
@@ -35,6 +39,7 @@ const SensorTable = () => {
     setEditModal(!editModal);
   };
 
+  //센서 모니터링
   const getSensorList = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/sensor/read`);
@@ -48,6 +53,7 @@ const SensorTable = () => {
     getSensorList();
   }, []);
 
+  //센서 추가 기능
   const AddSensor = async () => {
     try {
       const response = await axios.post(`${API_BASE_URL}/sensor/create`, {
@@ -123,6 +129,7 @@ const SensorTable = () => {
     );
   };
 
+  //삭제 기능
   const onClickRemove = async (id) => {
     if (window.confirm("센서를 삭제하시겠습니까?")) {
       await axios.patch(`${API_BASE_URL}/sensor/delete/${id}`);
@@ -131,6 +138,7 @@ const SensorTable = () => {
     }
   };
 
+  //수정 기능
   const handleEditSensor = async () => {
     try {
       const response = await axios.put(
@@ -230,6 +238,14 @@ const SensorTable = () => {
     );
   };
 
+  //pagination
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+  };
+  const offset = currentPage * sensorsPerPage;
+  const currentSensors = sensorList.slice(offset, offset + sensorsPerPage);
+  const pageCount = Math.ceil(sensorList.length / sensorsPerPage);
+
   return (
     <div>
       <Card>
@@ -242,10 +258,7 @@ const SensorTable = () => {
             }}
           >
             <div>
-              <CardTitle tag="h5">Sensor Listing</CardTitle>
-              <CardSubtitle className="mb-2 text-muted" tag="h6">
-                Overview of the Sensors
-              </CardSubtitle>
+              <CardTitle tag="h5">Sensor List</CardTitle>
             </div>
             <Button
               color="dark"
@@ -265,9 +278,9 @@ const SensorTable = () => {
                 <th></th>
               </tr>
             </thead>
-            {sensorList ? (
+            {sensorList.length > 0 ? (
               <tbody>
-                {sensorList.map((sensor) => (
+                {currentSensors.map((sensor) => (
                   <tr key={sensor.sensorEqpId} className="border-top">
                     <td>
                       <div className="d-flex align-items-center p-2">
@@ -312,6 +325,18 @@ const SensorTable = () => {
               <p>센서를 등록해주세요.</p>
             )}
           </Table>
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+          />
         </CardBody>
       </Card>
       {clickModal()}
