@@ -1,27 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Table,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import { useNavigate } from "react-router";
+import { Card, CardBody, CardTitle, Table, Button } from "reactstrap";
 import "../../assets/scss/layout/modalStyle.css";
 import axios from "axios";
 import { API_BASE_URL } from "../../config.js";
 import ReactPaginate from "react-paginate";
 import "./pagination.css";
 
-const SensorTable = () => {
+const ResultTable = ({ onResultChartDataUpdate }) => {
   const [resultsList, setResultsList] = useState([]);
-
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
-  const resultsPerPage = 5;
+  const resultsPerPage = 10;
 
   const getResultsList = async () => {
     try {
@@ -33,24 +23,25 @@ const SensorTable = () => {
     }
   };
 
-  const clickResultsMonitoring = (start) => {
+  const handleResultChartView = (resultChartData) => {
+    console.log("오고 있다니까", resultChartData);
+    navigate("/result", {
+      state: { resultChartData: resultChartData },
+    });
+  };
+
+  const clickResultsMonitoring = async (start) => {
     try {
-      const response = axios.get(
-        `${API_BASE_URL}/dataset/ml`,
-        {},
-        {
-          params: {
-            mlStart: start,
-          },
-        }
-      );
+      console.log("start", start);
+      const response = await axios.get(`${API_BASE_URL}/dataset/ml/${start}`);
       console.log("ml 결과 ", response.data);
+      handleResultChartView(response.data);
+      onResultChartDataUpdate(response.data);
     } catch (error) {
       console.error("불러오지 못함", error);
     }
   };
 
-  //mlStart
   useEffect(() => {
     getResultsList();
   }, []);
@@ -64,6 +55,21 @@ const SensorTable = () => {
   const currentResults = resultsList.slice(offset, offset + resultsPerPage);
   const pageCount = Math.ceil(resultsList.length / resultsPerPage);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    const year = date.getFullYear();
+    const month = date.toLocaleString("default", { month: "short" });
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    const formattedDate = `${year}년 ${month} ${day}일 ${hours}:${minutes}:${seconds}`;
+
+    return formattedDate;
+  };
+
   return (
     <div>
       <Card>
@@ -76,7 +82,8 @@ const SensorTable = () => {
             }}
           >
             <div>
-              <CardTitle tag="h5">ML model Results List</CardTitle>
+              <CardTitle tag="h3">ML Results</CardTitle>
+              <CardTitle tag="h6">모델 학습 결과 저장소</CardTitle>
             </div>
           </div>
 
@@ -104,23 +111,25 @@ const SensorTable = () => {
                       <h5 className="mb-0">{result.measurement}</h5>
                     </td>
                     <td>
-                      <h5 className="mb-0">{result.tag_key}</h5>
+                      <h5 className="mb-0">{result.tagKey}</h5>
                     </td>
                     <td>
-                      <h5 className="mb-0">{result.tag_value}</h5>
+                      <h5 className="mb-0">{result.tagValue}</h5>
                     </td>
                     <td>
-                      <h5 className="mb-0">{result.mlStart}</h5>
+                      <h5 className="mb-0">{formatDate(result.mlStart)}</h5>
                     </td>
                     <td>
-                      <h5 className="mb-0">{result.tag_value}</h5>
+                      <h5 className="mb-0">{formatDate(result.mlEnd)}</h5>
                     </td>
                     <td className="text-end">
                       <Button
-                        color="info"
+                        color="secondary"
                         size="sm"
                         onClick={() => clickResultsMonitoring(result.mlStart)}
-                      ></Button>
+                      >
+                        모델 학습 결과 보기
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -137,7 +146,7 @@ const SensorTable = () => {
             breakClassName={"break-me"}
             pageCount={pageCount}
             marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
+            pageRangeDisplayed={10}
             onPageChange={handlePageClick}
             containerClassName={"pagination"}
             activeClassName={"active"}
@@ -148,4 +157,4 @@ const SensorTable = () => {
   );
 };
 
-export default SensorTable;
+export default ResultTable;
