@@ -87,6 +87,7 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
       );
       onResultChartDataUpdate(response.data);
       setSelectedFeatureColumns([]);
+      //테스트 해야함.
     } catch (error) {
       console.error(
         "SelectParameter/handleApplyButtonClick데이터를 불러오지 못했습니다.",
@@ -114,7 +115,7 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
     <>
       {loading && ( // 로딩 중일 때만 모달창 표시
         <Modal isOpen={loading}>
-          <ModalHeader>학습중...</ModalHeader>
+          <ModalHeader>Please wait while learning...</ModalHeader>
           <ModalBody>
             <div
               style={{
@@ -126,9 +127,7 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
             >
               <Spinner type="grow" style={{ width: "3rem", height: "3rem" }} />
             </div>
-            <div style={{ textAlign: "center" }}>
-              Please wait while learning...
-            </div>
+            <div style={{ textAlign: "center" }}>학습중...</div>
           </ModalBody>
         </Modal>
       )}
