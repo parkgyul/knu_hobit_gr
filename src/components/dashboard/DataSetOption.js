@@ -67,7 +67,6 @@ const DataSetOption = ({ onTypeChange }) => {
   const getDataSetTypes = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/dataset/type`);
-      console.log(response.data.dataset_list);
       setTypes(response.data.dataset_list);
       toggleModal();
     } catch (error) {

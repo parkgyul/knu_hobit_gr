@@ -16,15 +16,13 @@ const ResultTable = ({ onResultChartDataUpdate }) => {
   const getResultsList = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/dataset/ml-list`);
-      console.log(response.data);
       setResultsList(response.data);
     } catch (error) {
-      console.error("불러오지 못함", error);
+      console.error("getResultsList 불러오지 못함", error);
     }
   };
 
   const handleResultChartView = (resultChartData) => {
-    console.log("오고 있다니까", resultChartData);
     navigate("/result", {
       state: { resultChartData: resultChartData },
     });
@@ -32,13 +30,11 @@ const ResultTable = ({ onResultChartDataUpdate }) => {
 
   const clickResultsMonitoring = async (start) => {
     try {
-      console.log("start", start);
       const response = await axios.get(`${API_BASE_URL}/dataset/ml/${start}`);
-      console.log("ml 결과 ", response.data);
       handleResultChartView(response.data);
       onResultChartDataUpdate(response.data);
     } catch (error) {
-      console.error("불러오지 못함", error);
+      console.error("clickResultsMonitoring 불러오지 못함", error);
     }
   };
 
@@ -47,13 +43,13 @@ const ResultTable = ({ onResultChartDataUpdate }) => {
   }, []);
 
   //pagination
-  const handlePageClick = (event) => {
-    setCurrentPage(event.selected);
-  };
-
   const offset = currentPage * resultsPerPage;
   const currentResults = resultsList.slice(offset, offset + resultsPerPage);
   const pageCount = Math.ceil(resultsList.length / resultsPerPage);
+
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

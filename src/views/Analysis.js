@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Col, Row } from "reactstrap";
 import ResultChart from "../components/dashboard/ResultChart.js";
 import DataSet from "./DataSet.js";
@@ -10,18 +10,12 @@ const Analysis = () => {
   const [resultChartData, setResultChartData] = useState(null);
 
   const handleDataChange = (data) => {
-    console.log("data", data);
     setDataSet(data);
   };
 
   const handleDataTypeChange = (type) => {
-    console.log("stype: " + type);
     setDataType(type);
   };
-
-  // useEffect(() => {
-  //   console.log("resultChartData", resultChartData);
-  // }, [resultChartData]);
 
   return (
     <div>
@@ -39,7 +33,7 @@ const Analysis = () => {
             onResultChartDataUpdate={setResultChartData}
           />
         </Col>
-        <ResultChart resultChartData={resultChartData} />
+        {/* <ResultChart resultChartData={resultChartData} />*/}
       </Row>
     </div>
   );

@@ -9,13 +9,11 @@ const DataSet = ({ onDataChange, onDataTypeChange }) => {
 
   const handleTypeChange = (type) => {
     setSelectedType(type);
-    console.log("선택된 데이터: ", type);
   };
 
   const handleDataSetChange = (data) => {
     onDataChange(data); // 부모 컴포넌트로 데이터 전달
     onDataTypeChange(selectedType);
-    console.log("hahahahhahahahaha selectedType: ", selectedType);
   };
 
   return (

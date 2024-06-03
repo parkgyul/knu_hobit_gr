@@ -30,7 +30,6 @@ const DataSetMonitoring = ({ selectedType, onDataSetChange }) => {
       });
       setDataSet(response.data);
       onDataSetChange(response.data); // 부모 컴포넌트로 데이터 전달
-      console.log(response.data);
     } catch (error) {
       console.error("데이터를 불러오지 못했습니다.", error);
     } finally {
