@@ -14,7 +14,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from "react-time-picker";
 import axios from "axios";
-const SelectParameter = ({ dataType, data }) => {
+const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
+  const [loading, setLoading] = useState(false);
+
   //dataType 저장하기
   const [bucket, setBucket] = useState("");
   const [measurement, setMeasurement] = useState("");
@@ -95,8 +97,12 @@ const SelectParameter = ({ dataType, data }) => {
         }
       );
       console.log("hahahahahhahahhaa", response.data);
+      onResultChartDataUpdate(response.data);
+      setSelectedFeatureColumns([]);
     } catch (error) {
       console.error("데이터를 불러오지 못했습니다.", error);
+    } finally {
+      setLoading(false); // API 호출 후에 로딩 상태 해제
     }
   };
 
@@ -247,7 +253,7 @@ const SelectParameter = ({ dataType, data }) => {
             </ListGroup>
             <hr style={{ borderTop: "3px solid #B9B8B8" }} />
             <ListGroup>
-              <Button onClick={handleApplyButtonClick}>Apply</Button>
+              <Button onClick={handleApplyButtonClick}>모델 학습 시키기</Button>
             </ListGroup>
           </>
         ) : (

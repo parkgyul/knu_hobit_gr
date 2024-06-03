@@ -12,7 +12,7 @@ const Starter = lazy(() => import("../views/Starter.js"));
 const Analysis = lazy(() => import("../views/Analysis.js"));
 const Sensor = lazy(() => import("../views/Sensor.js"));
 const Results = lazy(() => import("../views/Results.js"));
-
+const ResultChartPage = lazy(() => import("../views/ResultChartPage.js"));
 const Buttons = lazy(() => import("../views/ui/Buttons"));
 const Cards = lazy(() => import("../views/ui/Cards"));
 const Grid = lazy(() => import("../views/ui/Grid"));
@@ -37,6 +37,7 @@ const ThemeRoutes = [
       { path: "/grid", exact: true, element: <Grid /> },
       { path: "/table", exact: true, element: <Tables /> },
       { path: "/forms", exact: true, element: <Forms /> },
+      { path: "/result", exact: true, element: <ResultChartPage /> },
     ],
   },
 ];
