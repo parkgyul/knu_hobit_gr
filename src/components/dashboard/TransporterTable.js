@@ -3,7 +3,6 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardSubtitle,
   Table,
   Button,
   Modal,
@@ -14,8 +13,7 @@ import {
 import transporter from "../../assets/images/users/transporter.png";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { API_BASE_URL } from "../../config";
-import "./table.css";
+import "../../assets/scss/table.css";
 
 const ProjectTables = ({
   selectedIds,

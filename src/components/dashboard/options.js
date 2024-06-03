@@ -10,7 +10,7 @@ import {
 import "../../App.css";
 import Checkbox from "./Checkbox";
 import ApplyButton from "./ApplyButton";
-import "./ApplyButton.scss";
+import "../../assets/scss/ApplyButton.scss";
 
 const OPERATION = [
   { value: "all", name: "전체" },

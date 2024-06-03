@@ -31,27 +31,7 @@ const ConnectSSE = () => {
     return () => {
       eventSource.close();
     };
-    // eventSource.addEventListener("message", (event) => {
-    //   console.log(event);
-    // });
-
-    // eventSource.addEventListener("sensorData", async (event) => {
-    //   const eventData = await event.data;
-    //   console.log("Received event: ", eventData);
-
-    //   dispatch(receiveDataAction(eventData));
-    // });
-
-    // eventSource.onerror = (err) => {
-    //   console.log("Received error: ", err);
-    // };
-
-    // 컴포넌트 언마운트 시 SSE 연결 종료
-    // return () => {
-    //   eventSource.close();
-    //   console.log("끊겼우");
-    // };
-  }, []); // dispatch를 의존성 배열에 추가
+  }, []);
 
   return <div></div>;
 };

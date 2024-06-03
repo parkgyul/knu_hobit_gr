@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Col, Row } from "reactstrap";
 import ResultChart from "../components/dashboard/ResultChart.js";
 import DataSet from "./DataSet.js";
-import SelectParameter from "../components/dashboard/selectParameter.js";
+import SelectParameter from "../components/dashboard/SelectParameter.js";
 
 const Analysis = () => {
   const [dataSet, setDataSet] = useState(null);
