@@ -47,7 +47,6 @@ const Location = () => {
         });
         newMarker.setMap(map);
         markersRef.current[eqp_id] = newMarker;
-        console.log("New marker created for eqp_id:", eqp_id);
       }
     }
   }, [messages]);

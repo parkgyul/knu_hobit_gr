@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import {
   Card,
   CardBody,
@@ -10,8 +11,9 @@ import {
   ModalBody,
   ModalHeader,
 } from "reactstrap";
+import { RingLoader, SyncLoader } from "react-spinners";
+//https://www.davidhu.io/react-spinners/
 import "../../App.css";
-import ApplyButton from "./ApplyButton";
 import "./ApplyButton.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,7 +22,7 @@ import axios from "axios";
 
 const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   //dataType 저장하기
   const [bucket, setBucket] = useState("");
   const [measurement, setMeasurement] = useState("");
@@ -63,6 +65,19 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      setStartDate(new Date(data.start));
+      setEndDate(new Date(data.end));
+    }
+    if (dataType && dataType.length === 4) {
+      setBucket(dataType[0]);
+      setMeasurement(dataType[1]);
+      setTagKey(dataType[2]);
+      setTagValue(dataType[3]);
+    }
+  }, [data, dataType]);
+
   const handleApplyButtonClick = async () => {
     try {
       setLoading(true);
@@ -88,28 +103,24 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
       onResultChartDataUpdate(response.data);
       setSelectedFeatureColumns([]);
       //테스트 해야함.
+      handleResultChartView(response.data);
     } catch (error) {
       console.error(
-        "SelectParameter/handleApplyButtonClick데이터를 불러오지 못했습니다.",
+        "SelectParameter/handleApplyButtonClick 데이터를 불러오지 못했습니다.",
         error
       );
     } finally {
-      setLoading(false); // API 호출 후에 로딩 상태 해제
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (data) {
-      setStartDate(new Date(data.start));
-      setEndDate(new Date(data.end));
-    }
-    if (dataType && dataType.length === 4) {
-      setBucket(dataType[0]);
-      setMeasurement(dataType[1]);
-      setTagKey(dataType[2]);
-      setTagValue(dataType[3]);
-    }
-  }, [data, dataType]);
+  //학습 결과 창으로 다시 가기
+  const handleResultChartView = (resultChartData) => {
+    console.log("오고 있다니까", resultChartData);
+    navigate("/result-ml", {
+      state: { resultChartData: resultChartData },
+    });
+  };
 
   return (
     <>
@@ -125,7 +136,7 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
                 height: "200px",
               }}
             >
-              <Spinner type="grow" style={{ width: "3rem", height: "3rem" }} />
+              <RingLoader color="#000000" size={100} speedMultiplier={0.8} />
             </div>
             <div style={{ textAlign: "center" }}>학습중...</div>
           </ModalBody>
@@ -283,7 +294,14 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
                   height: "200px",
                 }}
               >
-                <Spinner style={{ width: "3rem", height: "3rem" }} />
+                <SyncLoader
+                  color="#d4e6ef"
+                  cssOverride={{}}
+                  loading
+                  margin={5}
+                  size={15}
+                  speedMultiplier={0.3}
+                />
               </div>
               <div style={{ textAlign: "center" }}>데이터를 선택해주세요.</div>
             </>

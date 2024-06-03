@@ -62,7 +62,6 @@ const SensorTable = () => {
         sensorEqpId: eqpId,
       });
       if (response.status === 200) {
-        console.log("보냈음 ");
       }
     } catch (error) {
       console.error("Error adding sensor:", error);
@@ -150,7 +149,6 @@ const SensorTable = () => {
         }
       );
       if (response.status === 200) {
-        console.log("보냈음 ");
         toggleEditModal();
         getSensorList();
       }
