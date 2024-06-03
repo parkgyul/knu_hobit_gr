@@ -13,14 +13,21 @@ import "./ApplyButton.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from "react-time-picker";
+import axios from "axios";
+const SelectParameter = ({ dataType, data }) => {
+  //dataType 저장하기
+  const [bucket, setBucket] = useState("");
+  const [measurement, setMeasurement] = useState("");
+  const [tagKey, setTagKey] = useState("");
+  const [tagValue, setTagValue] = useState("");
 
-const SelectParameter = ({ data }) => {
+  //parameters 저장하기
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [estimator, setEstimator] = useState(100); // 초기값 설정
-  const [split, setSplit] = useState(0);
+  const [split, setSplit] = useState(0.8);
   const [selectedLabelColumn, setSelectedLabelColumn] = useState("");
   const [selectedFeatureColumns, setSelectedFeatureColumns] = useState([]);
 
@@ -50,9 +57,15 @@ const SelectParameter = ({ data }) => {
     }
   };
 
-  const handleApplyButtonClick = () => {
+  const handleApplyButtonClick = async () => {
+    //체크하기
+    console.log("dataType: ", dataType);
+    console.log("++++++++++++++++++++++++++++++++++++++++++");
+    console.log("bucket: ", bucket);
+    console.log("measurement: ", measurement);
+    console.log("tagKey: ", tagKey);
+    console.log("tagValue:", tagValue);
     console.log("Selected Estimator:", estimator);
-
     console.log("start Time", startTime);
     console.log("end Time", endTime);
     console.log("start Date", startDate);
@@ -60,15 +73,46 @@ const SelectParameter = ({ data }) => {
     console.log("split", split);
     console.log("selectedLabelColumn", selectedLabelColumn);
     console.log("selectedFeatureColumns", selectedFeatureColumns);
+
+    try {
+      const response = await axios.post(
+        "http://155.230.34.51:8081/train",
+        {},
+        {
+          params: {
+            bucket: bucket,
+            measurement: measurement,
+            tag_key: tagKey,
+            tag_value: tagValue,
+            start: startDate,
+            end: endDate,
+            send_topic: "iot-sensor-data-p3-r1-retentionih",
+            train_ratio: split,
+            n_estimators: estimator,
+            feature_option_list: selectedFeatureColumns.join(","),
+            label_option: selectedLabelColumn,
+          },
+        }
+      );
+      console.log("hahahahahhahahhaa", response.data);
+    } catch (error) {
+      console.error("데이터를 불러오지 못했습니다.", error);
+    }
   };
-  console.log("SelectParameter", data);
 
   useEffect(() => {
     if (data) {
       setStartDate(new Date(data.start));
       setEndDate(new Date(data.end));
     }
-  }, [data]);
+
+    if (dataType && dataType.length === 4) {
+      setBucket(dataType[0]);
+      setMeasurement(dataType[1]);
+      setTagKey(dataType[2]);
+      setTagValue(dataType[3]);
+    }
+  }, [data, dataType]);
 
   return (
     <Card>

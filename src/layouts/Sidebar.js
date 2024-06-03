@@ -8,6 +8,11 @@ const navigation = [
     icon: "bi bi-speedometer2",
   },
   {
+    title: "센서",
+    href: "/sensor",
+    icon: "bi bi-plus-circle",
+  },
+  {
     title: "데이터셋", //공공데이터 조회(column 등등 별로 )
     href: "/dataset",
     icon: "bi bi-plus-square",
@@ -18,9 +23,9 @@ const navigation = [
     icon: "bi bi-card-text",
   },
   {
-    title: "센서",
-    href: "/sensor",
-    icon: "bi bi-plus-circle",
+    title: "모델 학습 결과", // 데이터 모델 학습
+    href: "/results",
+    icon: "bi bi-card-text",
   },
 ];
 const Sidebar = () => {

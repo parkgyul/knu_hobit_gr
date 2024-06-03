@@ -4,7 +4,7 @@ import { Col, Row } from "reactstrap";
 import DataSetOption from "../components/dashboard/DataSetOption.js";
 import DataSetMonitoring from "../components/dashboard/DataSetMonitoring.js";
 
-const DataSet = ({ onDataChange }) => {
+const DataSet = ({ onDataChange, onDataTypeChange }) => {
   const [selectedType, setSelectedType] = useState(null);
 
   const handleTypeChange = (type) => {
@@ -14,6 +14,8 @@ const DataSet = ({ onDataChange }) => {
 
   const handleDataSetChange = (data) => {
     onDataChange(data); // 부모 컴포넌트로 데이터 전달
+    onDataTypeChange(selectedType);
+    console.log("hahahahhahahahaha selectedType: ", selectedType);
   };
 
   return (
