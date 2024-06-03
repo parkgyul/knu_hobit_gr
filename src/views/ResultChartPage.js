@@ -53,6 +53,8 @@ const ResultChartPage = () => {
           이전 페이지로 돌아가기
         </Button>
       </div>
+
+      {/*보여주자! 학습 결과 그래프*/}
       <ResultChart resultChartData={resultChartData} />
 
       <Card>

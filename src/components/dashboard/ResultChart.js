@@ -96,15 +96,15 @@ const ResultChart = ({ resultChartData }) => {
           <div className="bg-primary text-white my-3 p-3 rounded">
             <Row>
               <Col md="4">
-                <h6>mse</h6>
+                <h5>mse</h5>
                 <h4 className="mb-0 fw-bold">{mlResult.mse}</h4>
               </Col>
               <Col md="4">
-                <h6>Rmse</h6>
+                <h5>Rmse</h5>
                 <h4 className="mb-0 fw-bold">{mlResult.rmse}</h4>
               </Col>
               <Col md="4">
-                <h6>r2</h6>
+                <h5>r2</h5>
                 <h4 className="mb-0 fw-bold">{mlResult.r2}</h4>
               </Col>
             </Row>
@@ -112,9 +112,7 @@ const ResultChart = ({ resultChartData }) => {
           <Chart options={options} series={series} type="area" height="279" />
         </CardBody>
       ) : (
-        <Card>
-          <h3>학습 결과 기다리는 중...</h3>
-        </Card>
+        <h3>학습 결과 기다리는 중...</h3>
       )}
     </Card>
   );

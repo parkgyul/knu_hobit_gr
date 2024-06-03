@@ -6,6 +6,9 @@ import {
   ListGroup,
   Button,
   Spinner,
+  Modal,
+  ModalBody,
+  ModalHeader,
 } from "reactstrap";
 import "../../App.css";
 import ApplyButton from "./ApplyButton";
@@ -14,6 +17,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from "react-time-picker";
 import axios from "axios";
+
 const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
   const [loading, setLoading] = useState(false);
 
@@ -60,23 +64,8 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
   };
 
   const handleApplyButtonClick = async () => {
-    //체크하기
-    console.log("dataType: ", dataType);
-    console.log("++++++++++++++++++++++++++++++++++++++++++");
-    console.log("bucket: ", bucket);
-    console.log("measurement: ", measurement);
-    console.log("tagKey: ", tagKey);
-    console.log("tagValue:", tagValue);
-    console.log("Selected Estimator:", estimator);
-    console.log("start Time", startTime);
-    console.log("end Time", endTime);
-    console.log("start Date", startDate);
-    console.log("end Date", endDate);
-    console.log("split", split);
-    console.log("selectedLabelColumn", selectedLabelColumn);
-    console.log("selectedFeatureColumns", selectedFeatureColumns);
-
     try {
+      setLoading(true);
       const response = await axios.post(
         "http://155.230.34.51:8081/train",
         {},
@@ -96,11 +85,14 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
           },
         }
       );
-      console.log("hahahahahhahahhaa", response.data);
       onResultChartDataUpdate(response.data);
       setSelectedFeatureColumns([]);
+      //테스트 해야함.
     } catch (error) {
-      console.error("데이터를 불러오지 못했습니다.", error);
+      console.error(
+        "SelectParameter/handleApplyButtonClick데이터를 불러오지 못했습니다.",
+        error
+      );
     } finally {
       setLoading(false); // API 호출 후에 로딩 상태 해제
     }
@@ -111,7 +103,6 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
       setStartDate(new Date(data.start));
       setEndDate(new Date(data.end));
     }
-
     if (dataType && dataType.length === 4) {
       setBucket(dataType[0]);
       setMeasurement(dataType[1]);
@@ -121,143 +112,11 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
   }, [data, dataType]);
 
   return (
-    <Card>
-      <CardBody>
-        <CardTitle tag="h5" className="font-weight-bold">
-          학습 파라미터 고르기
-        </CardTitle>
-        {data ? (
-          <>
-            <hr style={{ borderTop: "3px solid #B9B8B8" }} />
-            <ListGroup flush className="mt-3">
-              Label Column
-              <div style={{ marginBottom: "10px" }} />
-              <select
-                className="form-select form-select-sm form-select-short"
-                aria-label=".form-select-sm example"
-                onChange={handleLabelColumnChange}
-                value={selectedLabelColumn}
-              >
-                <option value="" disabled>
-                  조회할 데이터셋을 고르세요.
-                </option>
-                {data.columns.map((column, index) => (
-                  <option key={index} value={column}>
-                    {column}
-                  </option>
-                ))}
-              </select>
-            </ListGroup>
-            <hr style={{ borderTop: "3px solid #B9B8B8" }} />
-            <ListGroup flush className="mt-3">
-              Feature Column
-              <div style={{ marginBottom: "10px" }} />
-              <select
-                className="form-select form-select-sm form-select-short"
-                aria-label=".form-select-sm example"
-                disabled={selectedLabelColumn === ""}
-                onChange={handleFeatureColumnChange}
-                value={selectedFeatureColumns}
-                multiple
-              >
-                {selectedLabelColumn ? (
-                  data.columns.map(
-                    (column, index) =>
-                      selectedLabelColumn !== column && ( // Label Column이 아닌 경우에만 option으로 추가
-                        <option key={index} value={column}>
-                          {column}
-                        </option>
-                      )
-                  )
-                ) : (
-                  <option value="" disabled>
-                    Label을 먼저 선택해주세요.
-                  </option>
-                )}
-              </select>
-              <hr style={{ borderTop: "3px solid #B9B8B8" }} />
-            </ListGroup>
-            <div>
-              <label style={{ marginRight: "5px" }}>Start Date :</label>
-
-              <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                showTimeSelect
-                timeIntervals={60}
-                dateFormat="yyyy/MM/dd HH:mm"
-                timeFormat="HH:mm"
-                placeholderText="시작 날짜와 시각을 고르세요."
-                minDate={startDate}
-                customTimeInput={
-                  <TimePicker
-                    onChange={(time) => setStartTime(time)}
-                    value={startTime}
-                    step={60}
-                  />
-                }
-              />
-            </div>
-            <ListGroup flush className="mt-3">
-              <div>
-                <label style={{ marginRight: "10px" }}>End Date : </label>
-
-                <DatePicker
-                  selected={endDate}
-                  onChange={(date) => setEndDate(date)}
-                  showTimeSelect
-                  timeIntervals={60}
-                  dateFormat="yyyy/MM/dd HH:mm"
-                  timeFormat="HH:mm"
-                  maxDate={endDate}
-                  placeholderText="종료 날짜와 시각을 고르세요."
-                  customTimeInput={
-                    <TimePicker
-                      onChange={(time) => setEndTime(time)}
-                      value={endTime}
-                      step={60}
-                    />
-                  }
-                />
-              </div>
-            </ListGroup>
-            <hr style={{ borderTop: "3px solid #B9B8B8" }} />
-            <ListGroup flush className="mt-3">
-              Estimator
-              <div style={{ marginBottom: "10px" }} />
-              <input
-                type="number"
-                name="number"
-                step="100"
-                placeholder="100"
-                min="100"
-                max="1000"
-                value={estimator}
-                onChange={handleEstimatorChange}
-              ></input>
-            </ListGroup>
-            <hr style={{ borderTop: "3px solid #B9B8B8" }} />
-            <ListGroup flush className="mt-3">
-              Split
-              <div style={{ marginBottom: "10px" }} />
-              <input
-                type="number"
-                name="number"
-                step="0.01"
-                placeholder="0"
-                min="0"
-                max="1"
-                value={split}
-                onChange={handleSplitChange}
-              ></input>
-            </ListGroup>
-            <hr style={{ borderTop: "3px solid #B9B8B8" }} />
-            <ListGroup>
-              <Button onClick={handleApplyButtonClick}>모델 학습 시키기</Button>
-            </ListGroup>
-          </>
-        ) : (
-          <>
+    <>
+      {loading && ( // 로딩 중일 때만 모달창 표시
+        <Modal isOpen={loading}>
+          <ModalHeader>Please wait while learning...</ModalHeader>
+          <ModalBody>
             <div
               style={{
                 display: "flex",
@@ -266,13 +125,172 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
                 height: "200px",
               }}
             >
-              <Spinner style={{ width: "3rem", height: "3rem" }} />
+              <Spinner type="grow" style={{ width: "3rem", height: "3rem" }} />
             </div>
-            <div style={{ textAlign: "center" }}>데이터를 선택해주세요.</div>
-          </>
-        )}
-      </CardBody>
-    </Card>
+            <div style={{ textAlign: "center" }}>학습중...</div>
+          </ModalBody>
+        </Modal>
+      )}
+      <Card>
+        <CardBody>
+          <CardTitle tag="h5" className="font-weight-bold">
+            학습 파라미터 고르기
+          </CardTitle>
+          {bucket && (
+            <CardTitle tag="h6" className="">
+              {bucket}/{measurement}/{tagKey}/{tagValue}
+            </CardTitle>
+          )}
+          {data ? (
+            <>
+              <hr style={{ borderTop: "3px solid #B9B8B8" }} />
+              <ListGroup flush className="mt-3">
+                Label Column
+                <div style={{ marginBottom: "10px" }} />
+                <select
+                  className="form-select form-select-sm form-select-short"
+                  aria-label=".form-select-sm example"
+                  onChange={handleLabelColumnChange}
+                  value={selectedLabelColumn}
+                >
+                  <option value="" disabled>
+                    조회할 데이터셋을 고르세요.
+                  </option>
+                  {data.columns.map((column, index) => (
+                    <option key={index} value={column}>
+                      {column}
+                    </option>
+                  ))}
+                </select>
+              </ListGroup>
+              <hr style={{ borderTop: "3px solid #B9B8B8" }} />
+              <ListGroup flush className="mt-3">
+                Feature Column
+                <div style={{ marginBottom: "10px" }} />
+                <select
+                  className="form-select form-select-sm form-select-short"
+                  aria-label=".form-select-sm example"
+                  disabled={selectedLabelColumn === ""}
+                  onChange={handleFeatureColumnChange}
+                  value={selectedFeatureColumns}
+                  multiple
+                >
+                  {selectedLabelColumn ? (
+                    data.columns.map(
+                      (column, index) =>
+                        selectedLabelColumn !== column && ( // Label Column이 아닌 경우에만 option으로 추가
+                          <option key={index} value={column}>
+                            {column}
+                          </option>
+                        )
+                    )
+                  ) : (
+                    <option value="" disabled>
+                      Label을 먼저 선택해주세요.
+                    </option>
+                  )}
+                </select>
+                <hr style={{ borderTop: "3px solid #B9B8B8" }} />
+              </ListGroup>
+              <div>
+                <label style={{ marginRight: "5px" }}>Start Date :</label>
+
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  showTimeSelect
+                  timeIntervals={60}
+                  dateFormat="yyyy/MM/dd HH:mm"
+                  timeFormat="HH:mm"
+                  placeholderText="시작 날짜와 시각을 고르세요."
+                  minDate={startDate}
+                  customTimeInput={
+                    <TimePicker
+                      onChange={(time) => setStartTime(time)}
+                      value={startTime}
+                      step={60}
+                    />
+                  }
+                />
+              </div>
+              <ListGroup flush className="mt-3">
+                <div>
+                  <label style={{ marginRight: "10px" }}>End Date : </label>
+
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    showTimeSelect
+                    timeIntervals={60}
+                    dateFormat="yyyy/MM/dd HH:mm"
+                    timeFormat="HH:mm"
+                    maxDate={endDate}
+                    placeholderText="종료 날짜와 시각을 고르세요."
+                    customTimeInput={
+                      <TimePicker
+                        onChange={(time) => setEndTime(time)}
+                        value={endTime}
+                        step={60}
+                      />
+                    }
+                  />
+                </div>
+              </ListGroup>
+              <hr style={{ borderTop: "3px solid #B9B8B8" }} />
+              <ListGroup flush className="mt-3">
+                Estimator
+                <div style={{ marginBottom: "10px" }} />
+                <input
+                  type="number"
+                  name="number"
+                  step="100"
+                  placeholder="100"
+                  min="100"
+                  max="1000"
+                  value={estimator}
+                  onChange={handleEstimatorChange}
+                ></input>
+              </ListGroup>
+              <hr style={{ borderTop: "3px solid #B9B8B8" }} />
+              <ListGroup flush className="mt-3">
+                Split
+                <div style={{ marginBottom: "10px" }} />
+                <input
+                  type="number"
+                  name="number"
+                  step="0.01"
+                  placeholder="0"
+                  min="0"
+                  max="1"
+                  value={split}
+                  onChange={handleSplitChange}
+                ></input>
+              </ListGroup>
+              <hr style={{ borderTop: "3px solid #B9B8B8" }} />
+              <ListGroup>
+                <Button color="secondary" onClick={handleApplyButtonClick}>
+                  모델 학습 시키기
+                </Button>
+              </ListGroup>
+            </>
+          ) : (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "200px",
+                }}
+              >
+                <Spinner style={{ width: "3rem", height: "3rem" }} />
+              </div>
+              <div style={{ textAlign: "center" }}>데이터를 선택해주세요.</div>
+            </>
+          )}
+        </CardBody>
+      </Card>
+    </>
   );
 };
 
