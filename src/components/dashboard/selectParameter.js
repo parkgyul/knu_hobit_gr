@@ -6,7 +6,6 @@ import {
   CardTitle,
   ListGroup,
   Button,
-  Spinner,
   Modal,
   ModalBody,
   ModalHeader,
@@ -14,7 +13,6 @@ import {
 import { RingLoader, SyncLoader } from "react-spinners";
 //https://www.davidhu.io/react-spinners/
 import "../../App.css";
-import "./ApplyButton.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from "react-time-picker";

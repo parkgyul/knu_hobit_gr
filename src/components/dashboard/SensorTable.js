@@ -3,7 +3,6 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardSubtitle,
   Table,
   Button,
   Modal,
@@ -17,7 +16,7 @@ import "../../assets/scss/layout/modalStyle.css";
 import axios from "axios";
 import { API_BASE_URL } from "../../config.js";
 import ReactPaginate from "react-paginate";
-import "./pagination.css";
+import "../../assets/scss/pagination.css";
 
 const SensorTable = () => {
   const [type, setType] = useState("");

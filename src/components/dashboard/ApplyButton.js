@@ -1,5 +1,5 @@
-import React from 'react';
-import './ApplyButton.scss';
+import React from "react";
+import "../../assets/scss/ApplyButton.scss";
 
 function Button({ children }) {
   return <button className="Button">{children}</button>;

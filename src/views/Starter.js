@@ -3,7 +3,7 @@ import ConnectSSE from "../connectSSE.js";
 
 import Options from "../components/dashboard/options.js";
 import ProjectTables from "../components/dashboard/TransporterTable.js";
-import Location from "../components/dashboard/location.js";
+import Location from "../components/dashboard/Location.js";
 import React, { useState, useEffect } from "react";
 import { API_BASE_URL } from "../config";
 import axios from "axios";
