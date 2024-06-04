@@ -32,7 +32,7 @@ const Starter = () => {
 
       <Row>
         <Col sm="6" lg="6" xl="7" xxl="8">
-          <Location />
+          <Location selectedIds={selectedIds} />
         </Col>
         <Col sm="6" lg="6" xl="5" xxl="4">
           <Options

@@ -38,15 +38,7 @@ const SelectBox = (props) => {
   );
 };
 
-const Options = ({
-  selectedIds,
-  setSelectedIds,
-  operationStatus,
-  setOperationStatus,
-  loadStatus,
-  setLoadStatus,
-  sensorList,
-}) => {
+const Options = ({ selectedIds, setSelectedIds, sensorList }) => {
   const handleCheckboxChange = (value) => {
     setSelectedIds((prevSelected) =>
       prevSelected.includes(value)
