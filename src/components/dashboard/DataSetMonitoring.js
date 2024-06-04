@@ -36,6 +36,18 @@ const DataSetMonitoring = ({ selectedType, onDataSetChange }) => {
       setLoading(false);
     }
   };
+  const formatDate2 = (isoDateString) => {
+    const date = new Date(isoDateString);
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+
+    return `${year}년 ${month}월 ${day}일 ${hours}:${minutes}:${seconds}`;
+  };
 
   useEffect(() => {
     if (selectedType) {
@@ -112,11 +124,13 @@ const DataSetMonitoring = ({ selectedType, onDataSetChange }) => {
           {dataSet.count !== undefined && <li>count : {dataSet.count}</li>}
           {dataSet.start && dataSet.end && (
             <li style={{ width: "1000px" }}>
-              데이터 기록 start : {dataSet.start}
+              데이터 기록 start : {formatDate2(dataSet.start)}/{dataSet.start}
             </li>
           )}
           {dataSet.start && dataSet.end && (
-            <li>데이터 기록 end : {dataSet.end}</li>
+            <li>
+              데이터 기록 end : {formatDate2(dataSet.end)}/{dataSet.end}
+            </li>
           )}
           {dataSet.measurement && <li>measurement: {dataSet.measurement}</li>}
         </CardBody>

@@ -100,7 +100,6 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
       );
       onResultChartDataUpdate(response.data);
       setSelectedFeatureColumns([]);
-      //테스트 해야함.
       handleResultChartView(response.data);
     } catch (error) {
       console.error(

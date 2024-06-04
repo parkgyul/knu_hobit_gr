@@ -71,7 +71,7 @@ const Options = ({
           Options
         </CardTitle>
         <CardSubtitle className="mb-2 text-muted" tag="h6">
-          트랜스포터/상하차/운행
+          트랜스포터
         </CardSubtitle>
         <hr style={{ borderTop: "3px solid #B9B8B8" }} />
         <ListGroup flush className="mt-4">
