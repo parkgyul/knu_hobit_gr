@@ -16,7 +16,7 @@ const ResultML = () => {
   return (
     <div>
       <div style={{ marginBottom: "10px" }}>
-        <Button color="secondary" size="sm" onClick={handleGoBack}>
+        <Button color="dark" size="sm" onClick={handleGoBack}>
           이전 페이지로 돌아가기
         </Button>
       </div>

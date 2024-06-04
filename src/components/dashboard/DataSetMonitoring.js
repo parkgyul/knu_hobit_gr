@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../config";
 import axios from "axios";
 import { Card, CardBody, CardTitle, Table, Spinner } from "reactstrap";
+import { SyncLoader } from "react-spinners";
 
 const DataSetMonitoring = ({ selectedType, onDataSetChange }) => {
   const [dataSet, setDataSet] = useState({});
@@ -67,7 +68,7 @@ const DataSetMonitoring = ({ selectedType, onDataSetChange }) => {
             }}
           >
             <div>
-              <CardTitle tag="h5" bold>
+              <CardTitle tag="h5">
                 Selected Data Type :
                 {selectedType
                   ? `  ${bucketName} / ${measurement} / ${tagKey} / ${tagValue}`
@@ -98,7 +99,7 @@ const DataSetMonitoring = ({ selectedType, onDataSetChange }) => {
                   <thead>
                     <tr>
                       {dataSet.columns.map((col, index) => (
-                        <th key={index} className="small-font">
+                        <th key={index} className="font-weight-bold">
                           {col}
                         </th>
                       ))}
@@ -117,22 +118,41 @@ const DataSetMonitoring = ({ selectedType, onDataSetChange }) => {
                   </tbody>
                 </>
               ) : (
-                <div>조회할 데이터셋을 골라주세요. </div>
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "200px",
+                    }}
+                  >
+                    <SyncLoader
+                      color="#d4e6ef"
+                      cssOverride={{}}
+                      loading
+                      margin={5}
+                      size={15}
+                      speedMultiplier={0.3}
+                    />
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    조회할 데이터셋을 선택해주세요.
+                  </div>
+                </>
               )}
             </Table>
           )}
           {dataSet.count !== undefined && <li>count : {dataSet.count}</li>}
           {dataSet.start && dataSet.end && (
             <li style={{ width: "1000px" }}>
-              데이터 기록 start : {formatDate2(dataSet.start)}/{dataSet.start}
+              데이터 기록 start : {formatDate2(dataSet.start)}
             </li>
           )}
           {dataSet.start && dataSet.end && (
-            <li>
-              데이터 기록 end : {formatDate2(dataSet.end)}/{dataSet.end}
-            </li>
+            <li>데이터 기록 end : {formatDate2(dataSet.end)}</li>
           )}
-          {dataSet.measurement && <li>measurement: {dataSet.measurement}</li>}
+          {/*dataSet.measurement && <li>measurement: {dataSet.measurement}</li>*/}
         </CardBody>
       </Card>
     </div>

@@ -20,7 +20,9 @@ const ConnectSSE = () => {
     eventSource.onmessage = function (event) {
       const data = JSON.parse(event.data);
 
-      setMessage((prevMessage) => [...prevMessage, data]);
+      const jsondata = JSON.parse(data.message);
+      console.log(jsondata);
+      setMessage((prevMessage) => [...prevMessage, jsondata]);
       dispatch(receiveDataAction(data));
     };
 

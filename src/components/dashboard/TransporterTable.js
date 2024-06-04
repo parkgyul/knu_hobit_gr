@@ -59,11 +59,12 @@ const ProjectTables = ({
   }, [selectedIds, operationStatus, loadStatus, sensorList]);
 
   useEffect(() => {
+    console.log(messages);
     if (messages.length > 0) {
       const latestMessage = messages[messages.length - 1];
       if (latestMessage) {
         const updatedSensorList = filteredSensorList.map((sensor) => {
-          if (String(sensor.sensorEqpId) === String(latestMessage.eqp_id)) {
+          if (String(sensor.sensorEqpId) === String(latestMessage.eqpId)) {
             return {
               ...sensor,
               weight: parseFloat(latestMessage.weight).toFixed(3),

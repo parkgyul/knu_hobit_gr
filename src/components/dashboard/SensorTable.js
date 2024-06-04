@@ -268,11 +268,9 @@ const SensorTable = () => {
 
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
-              <tr>
+              <tr className="font-weight-bold">
                 <th>name</th>
                 <th>topic</th>
-                <th></th>
-                <th></th>
               </tr>
             </thead>
             {sensorList.length > 0 ? (

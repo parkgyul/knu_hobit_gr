@@ -300,7 +300,9 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
                   speedMultiplier={0.3}
                 />
               </div>
-              <div style={{ textAlign: "center" }}>데이터를 선택해주세요.</div>
+              <div style={{ textAlign: "center" }}>
+                데이터셋을 선택해주세요.
+              </div>
             </>
           )}
         </CardBody>

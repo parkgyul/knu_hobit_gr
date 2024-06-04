@@ -84,9 +84,14 @@ const ResultTable = ({ onResultChartDataUpdate }) => {
           </div>
 
           {resultsList.length > 0 ? (
-            <Table className="no-wrap mt-3 align-middle" responsive borderless>
+            <Table
+              className="no-wrap mt-3 align-middle"
+              responsive
+              hover
+              borderless
+            >
               <thead>
-                <tr>
+                <tr className="font-weight-bold">
                   <th>bucket</th>
                   <th>measurement</th>
                   <th>tag_key</th>
@@ -120,7 +125,7 @@ const ResultTable = ({ onResultChartDataUpdate }) => {
                     </td>
                     <td className="text-end">
                       <Button
-                        color="secondary"
+                        color="dark"
                         size="sm"
                         onClick={() => clickResultsMonitoring(result.mlStart)}
                       >
