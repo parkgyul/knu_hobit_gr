@@ -5,27 +5,27 @@ const navigation = [
   {
     title: "모니터링", //트랜스포터
     href: "/starter",
-    icon: "bi bi-speedometer2",
+    icon: "bi bi-display",
   },
   {
     title: "센서",
     href: "/sensor",
-    icon: "bi bi-plus-circle",
+    icon: "bi bi-speedometer",
   },
   {
     title: "데이터셋", //공공데이터 조회(column 등등 별로 )
     href: "/dataset",
-    icon: "bi bi-plus-square",
+    icon: "bi bi-search",
   },
   {
-    title: "ML 모델", // 데이터 모델 학습
+    title: "모델 학습", // 데이터 모델 학습
     href: "/analysis",
-    icon: "bi bi-card-text",
+    icon: "bi bi-card-checklist",
   },
   {
-    title: "모델 학습 결과", // 데이터 모델 학습
+    title: "모델 학습 결과", // 이전 데이터 모델 학습 결과
     href: "/results",
-    icon: "bi bi-card-text",
+    icon: "bi bi-clipboard2-data",
   },
 ];
 const Sidebar = () => {
