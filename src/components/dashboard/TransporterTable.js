@@ -30,6 +30,7 @@ const ProjectTables = ({
 
   const toggleModal = () => {
     setModal(!modal);
+    setOperatedTime("");
   };
 
   useEffect(() => {
@@ -59,7 +60,7 @@ const ProjectTables = ({
   }, [selectedIds, operationStatus, loadStatus, sensorList]);
 
   useEffect(() => {
-    console.log(messages);
+    //console.log(messages);
     if (messages.length > 0) {
       const latestMessage = messages[messages.length - 1];
       if (latestMessage) {
