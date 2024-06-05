@@ -9,8 +9,6 @@ import axios from "axios";
 
 const Starter = () => {
   const [selectedIds, setSelectedIds] = useState([]);
-  const [operationStatus, setOperationStatus] = useState("all");
-  const [loadStatus, setLoadStatus] = useState("all");
   const [sensorList, setSensorList] = useState([]);
 
   const getSensorList = async () => {
@@ -48,16 +46,12 @@ const Starter = () => {
 
       <Row>
         <Col sm="6" lg="6" xl="7" xxl="8">
-          <Location selectedIds={selectedIds} />
+          <Location />
         </Col>
         <Col sm="6" lg="6" xl="5" xxl="4">
           <Options
             selectedIds={selectedIds}
             setSelectedIds={setSelectedIds}
-            operationStatus={operationStatus}
-            setOperationStatus={setOperationStatus}
-            loadStatus={loadStatus}
-            setLoadStatus={setLoadStatus}
             sensorList={sensorList}
           />
         </Col>
@@ -69,12 +63,7 @@ const Starter = () => {
       {/***Table ***/}
       <Row>
         <Col lg="12">
-          <ProjectTables
-            selectedIds={selectedIds}
-            operationStatus={operationStatus}
-            loadStatus={loadStatus}
-            sensorList={sensorList}
-          />
+          <ProjectTables selectedIds={selectedIds} sensorList={sensorList} />
         </Col>
       </Row>
     </div>

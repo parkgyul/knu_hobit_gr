@@ -5,8 +5,7 @@ import { SSE_URL } from "./config";
 
 const ConnectSSE = () => {
   const dispatch = useDispatch();
-  const [isConnected, setIsConnected] = useState(false); // 연결 상태 상태(state) 추가
-  const [message, setMessage] = useState([]);
+  //const [message, setMessage] = useState([]);
 
   useEffect(() => {
     // SSE 연결 설정
@@ -20,9 +19,9 @@ const ConnectSSE = () => {
     eventSource.onmessage = function (event) {
       const data = JSON.parse(event.data);
 
-      const jsondata = JSON.parse(data.message);
-      //console.log(jsondata);
-      setMessage((prevMessage) => [...prevMessage, jsondata]);
+      // const jsondata = JSON.parse(data.message);
+      // //console.log(jsondata);
+      // setMessage((prevMessage) => [...prevMessage, jsondata]);
       dispatch(receiveDataAction(data));
     };
 
