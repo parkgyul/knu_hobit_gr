@@ -99,7 +99,7 @@ const Options = ({ selectedIds, setSelectedIds, sensorList }) => {
             <SelectBox
               options={LOAD}
               value={loadStatus}
-              onChange={setLoadStatus}
+              onChange={settus}
             />
             <div style={{ marginBottom: "10px" }} />
             <hr style={{ borderTop: "3px solid #B9B8B8" }} />

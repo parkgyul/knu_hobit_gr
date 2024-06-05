@@ -15,12 +15,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import "../../assets/scss/table.css";
 
-const ProjectTables = ({
-  selectedIds,
-  operationStatus,
-  loadStatus,
-  sensorList,
-}) => {
+const ProjectTables = ({ selectedIds, sensorList }) => {
   const messages = useSelector((state) => state.messages) || [];
   const [filteredSensorList, setFilteredSensorList] = useState([]);
   const [operatedTime, setOperatedTime] = useState();
@@ -42,22 +37,12 @@ const ProjectTables = ({
           selectedIds.includes(sensor.sensorEqpId)
         );
       }
-      if (operationStatus !== "all") {
-        filtered = filtered.filter(
-          (sensor) => sensor.weight > 0 || sensor.weight < 0
-        );
-      }
-      if (loadStatus !== "all") {
-        filtered = filtered.filter((sensor) =>
-          loadStatus === "O" ? sensor.weight >= 0 : sensor.weight < 0
-        );
-      }
 
       setFilteredSensorList(filtered);
     };
 
     filterSensors();
-  }, [selectedIds, operationStatus, loadStatus, sensorList]);
+  }, [selectedIds, sensorList]);
 
   useEffect(() => {
     //console.log(messages);
