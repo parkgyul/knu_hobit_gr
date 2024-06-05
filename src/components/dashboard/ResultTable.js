@@ -137,7 +137,7 @@ const ResultTable = ({ onResultChartDataUpdate }) => {
               </tbody>
             </Table>
           ) : (
-            <h3>ML 학습 페이지로 가서 모델 학습을 진행 시켜주세요.</h3>
+            <h3></h3>
           )}
 
           <ReactPaginate

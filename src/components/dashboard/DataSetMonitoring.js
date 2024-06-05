@@ -132,8 +132,8 @@ const DataSetMonitoring = ({ selectedType, onDataSetChange }) => {
                       cssOverride={{}}
                       loading
                       margin={5}
-                      size={15}
-                      speedMultiplier={0.3}
+                      size={5}
+                      speedMultiplier={0}
                     />
                   </div>
                   <div style={{ textAlign: "center" }}>

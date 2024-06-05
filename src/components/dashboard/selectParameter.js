@@ -297,7 +297,7 @@ const SelectParameter = ({ dataType, data, onResultChartDataUpdate }) => {
                   loading
                   margin={5}
                   size={15}
-                  speedMultiplier={0.3}
+                  speedMultiplier={0}
                 />
               </div>
               <div style={{ textAlign: "center" }}>

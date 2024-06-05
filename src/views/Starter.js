@@ -1,6 +1,5 @@
 import { Col, Row } from "reactstrap";
 import ConnectSSE from "../connectSSE.js";
-
 import Options from "../components/dashboard/options.js";
 import ProjectTables from "../components/dashboard/TransporterTable.js";
 import Location from "../components/dashboard/Location.js";
@@ -25,10 +24,27 @@ const Starter = () => {
 
   useEffect(() => {
     getSensorList();
+    return () => {
+      console.log("Starter 컴포넌트가 언마운트되었습니다.");
+      disconnectionStreamingData();
+    };
   }, []);
+
+  const disconnectionStreamingData = async () => {
+    console.log("클린업 작업을 수행합니다.");
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/sensor/disconnectionStreamingData`
+      );
+      console.log("응답을 성공적으로 받았습니다:", response.data);
+    } catch (error) {
+      console.error("불러오지 못함", error);
+    }
+  };
+
   return (
     <div>
-      <ConnectSSE />
+      {<ConnectSSE />}
 
       <Row>
         <Col sm="6" lg="6" xl="7" xxl="8">
